@@ -14,10 +14,10 @@
 
 void	init_game(t_game *game)
 {
-	game->mlx_ptr = NULL;
-	game->win_ptr = NULL;
-	game->tex_n = NULL;
-	game->tex_s = NULL;
+	game->mlx = mlx_init(RESX, RESY, argv[1], false);
+	game->img = mlx_new_image(game->mlx, RESX, RESY);
+	game->tex_n = NULL; // en cada uno envez de usar un ciclo para presentarlo a 0 y despues darle valor ahorramos tiempo
+	game->tex_s = NULL;// todo; etc
 	game->tex_e = NULL;
 	game->tex_w = NULL;
 	game->map = NULL;
@@ -31,4 +31,5 @@ void	init_game(t_game *game)
 	game->ceil_color = 0;
 	game->map_width = 0;
 	game->map_height = 0;
+	game->show_fps = false;
 }
