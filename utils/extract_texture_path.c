@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/02 12:21:16 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/02 17:47:31 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,47 @@ char	*parse_path(t_game *game, char *map)
 				cursor++;
 			while (*cursor != '\0')
 			{
-				if ((*cursor >= '0' && *cursor <= '9') || (*(cursor + 1) >= '0'&& *(cursor + 1)))
+				if ((*cursor >= '0' && *cursor <= '9') || (*(cursor + 1) >= '0' && *(cursor + 1) <= '9'))
 				{
 					r = ft_atoi_rgb(&cursor);
 					if (r < 0 || r > 255)
+						return (NULL);
+					else
+						cursor++;
+					g = ft_atoi_rgb(&cursor);
+					if (g < 0 || g > 255)
+						return (NULL);
+					else
+						cursor++;
+					b = ft_atoi_rgb(&cursor);
+					if (b < 0 || b > 255)
+						return (NULL);
+					else
+						cursor++;
+				}
+			}
+		}
+		else if (*cursor == 'C' && *(cursor + 1) == ' ')
+		{
+			cursor = cursor + 2;
+			while (*cursor == ' ')
+				cursor++;
+			while (*cursor != '\0')
+			{
+				if ((*cursor >= '0' && *cursor <= '9') || (*(cursor + 1) >= '0' && *(cursor + 1) <= '9'))
+				{
+					r = ft_atoi_rgb(&cursor);
+					if (r < 0 || r > 255)
+						return (NULL);
+					else
+						cursor++;
+					g = ft_atoi_rgb(&cursor);
+					if (g < 0 || g > 255)
+						return (NULL);
+					else
+						cursor++;
+					b = ft_atoi_rgb(&cursor);
+					if (b < 0 || b > 255)
 						return (NULL);
 					else
 						cursor++;
