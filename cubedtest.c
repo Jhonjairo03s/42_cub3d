@@ -47,7 +47,32 @@ int	main(int argc, char **argv)
 		return (err_msg("Usage", ERROR_USAGE, 1));
 	if (program_validation(argv[1]) == 1)
 		return (1);
-	
-	
+	raw_data = parser_map(argv[1]);
+	if (raw_data == NULL)
+	{
+		buf = "Fallo parser_map\n";
+		write(STDERR_FILENO, buf, ft_strlen(buf));
+		return (1);
+	}
+	cursor = explore_map(raw_data, "SO");
+	if (cursor == NULL)
+	{
+		buf = "Fallo explore_map\n";
+		write(STDERR_FILENO, buf, ft_strlen(buf));
+		free(raw_data);
+		return (1);
+	}
+	cursor = extract_texture_path(cursor);
+	if (cursor == NULL)
+	{
+		buf = "Fallo texture_extraction\n";
+		write(STDERR_FILENO, buf, ft_strlen(buf));
+		free(raw_data);
+		return (1);
+	}
+	write(STDOUT_FILENO, "Inicio\n", 7);
+	write(STDOUT_FILENO, cursor, ft_strlen(cursor));
+	write(STDOUT_FILENO, "\nFin\n", 5);
+	free(raw_data);
 	return (0);
 }
