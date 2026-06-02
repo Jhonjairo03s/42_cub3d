@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/05/29 00:18:58 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/01 12:03:39 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 # define CUB3D_H
 
 # include <stdint.h>
+# include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 # include <sys/types.h>
+
+# define BUFFER_SIZE 4096
 
 // Error Messages
 # define ERROR_USAGE "./cub3D <maps/*name_map*.cub>\n"
 # define ERROR_LENGTH "Minimum length 5 characters\n"
 # define ERROR_EXTENSION "It must end in .cub\n"
+# define ERROR_FD_OPEN "Error opening the file\n"
+# define ERROR_FD_DIR_OPEN "It's a directory, not a map\n"
 
 typedef uint8_t		t_u8;	// usigned char
 typedef uint32_t	t_u32;	// usigned int
@@ -56,11 +63,23 @@ typedef struct s_game
 */
 void	init_game(t_game *game);
 int		err_msg(const char *msg, char *str, int code);
+char	*parser_map(const char *buf);
+char	*explore_map_north(char *map);
+char	*explore_map_south(char *map);
+char	*explore_map_east(char *map);
+char	*explore_map_west(char *map);
+char	*texture_extraction_north(char *extraction);
+char	*texture_extraction_south(char *extraction);
+char	*texture_extraction_east(char *extraction);
+char	*texture_extraction_west(char *extraction);
+char	*explore_map(char *map, const char *prefix);
+char	*extract_texture_path(char *extraction);
 
 /*
  * libft/ 
 */
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *str1, const char *str2);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif
