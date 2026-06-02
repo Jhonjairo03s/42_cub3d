@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/01 13:49:47 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/02 12:21:16 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ char	*parse_path(t_game *game, char *map)
 	char	*cursor;
 	char	*path_start;
 	int		elements_found;
+	int		r;
+	int		g;
+	int		b;
 
 	cursor = map;
 	elements_found = 0;
@@ -118,7 +121,23 @@ char	*parse_path(t_game *game, char *map)
 			//game->tex_e = funcion_que_aun_no_existe(game->mlx_ptr, path_start);
 			elements_found++;
 		}
-		// else if para F y C
+		else if (*cursor == 'F' && *(cursor + 1) == ' ')
+		{
+			cursor = cursor + 2;
+			while (*cursor == ' ')
+				cursor++;
+			while (*cursor != '\0')
+			{
+				if ((*cursor >= '0' && *cursor <= '9') || (*(cursor + 1) >= '0'&& *(cursor + 1)))
+				{
+					r = ft_atoi_rgb(&cursor);
+					if (r < 0 || r > 255)
+						return (NULL);
+					else
+						cursor++;
+				}
+			}
+		}
 		cursor++;
 	}
 	if (elements_found != 6)

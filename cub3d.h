@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/01 12:03:39 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/02 11:53:43 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,19 @@ typedef struct s_game
 void	init_game(t_game *game);
 int		err_msg(const char *msg, char *str, int code);
 char	*parser_map(const char *buf);
-char	*explore_map_north(char *map);
-char	*explore_map_south(char *map);
-char	*explore_map_east(char *map);
-char	*explore_map_west(char *map);
-char	*texture_extraction_north(char *extraction);
-char	*texture_extraction_south(char *extraction);
-char	*texture_extraction_east(char *extraction);
-char	*texture_extraction_west(char *extraction);
-char	*explore_map(char *map, const char *prefix);
-char	*extract_texture_path(char *extraction);
+// char	*explore_map_north(char *map);
+// char	*explore_map_south(char *map);
+// char	*explore_map_east(char *map);
+// char	*explore_map_west(char *map);
+// char	*texture_extraction_north(char *extraction);
+// char	*texture_extraction_south(char *extraction);
+// char	*texture_extraction_east(char *extraction);
+// char	*texture_extraction_west(char *extraction);
+// char	*explore_map(char *map, const char *prefix);
+// char	*extract_texture_path(char *extraction);
+char	*master_cursor(char *cursor);
+char	*parse_path(t_game *game, char *map);
+int		ft_atoi_rgb(char **str);
 
 /*
  * libft/ 

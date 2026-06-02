@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/06/01 12:01:08 by jhvalenc         ###   ########.fr        #
+#    Updated: 2026/06/02 11:53:33 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,24 +17,30 @@ CFLAGS = -g -Wall -Werror -Wextra
 
 RM = rm -f
 
-SRCS = cub3d.c \
-       utils/init_game.c utils/errors.c utils/map_of_the_char.c \
-       utils/north_tex.c utils/south_tex.c utils/west_tex.c \
-       utils/east_tex.c utils/extract_texture_path.c \
-       libft/ft_strlen.c libft/ft_strcmp.c libft/ft_strjoin.c
+SRCS_MAIN = cub3d.c
 
-OBJS = $(SRCS:.c=.o)
+SRCS_UTILS = init_game.c \
+	     errors.c \
+	     map_of_the_char.c \
+	     extract_texture_path.c \
+	     ft_atoi_rgb.c 
+
+SRCS_LIBFT = ft_strlen.c \
+	     ft_strcmp.c \
+	     ft_strjoin.c
+
+ALL_OBJS = $(SRCS_MAIN:.c=.o) $(SRCS_UTILS:.c=.o) $(SRCS_LIBFT:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(ALL_OBJS)
 	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 %.o: %.c cub3d.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(ALL_OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
