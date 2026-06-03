@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: ppaula-s <ppaula-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 22:29:10 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/05/28 22:37:31 by jhvalenc         ###   ########.fr       */
+/*   Created: 2025/04/08 20:33:43 by ppaula-s          #+#    #+#             */
+/*   Updated: 2025/04/09 01:29:23 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "libft.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_bzero(void *s, size_t n)
 {
-	size_t	len;
-
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (*str != '\0')
-	{
-		len++;
-		str++;
-	}
-	return (len);
+	ft_memset(s, 0, n);
 }

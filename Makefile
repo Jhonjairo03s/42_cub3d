@@ -1,50 +1,54 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/06/02 11:53:33 by jhvalenc         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	:= cub3D
+CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3
+LIBMLX	:= ./mlx
+LIBFT	:= ./libft
 
-NAME = cub3D
+HEADERS	:= -I. -I $(LIBMLX)/include -I $(LIBFT)/libft
+LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
 
-CC = cc
-CFLAGS = -g -Wall -Werror -Wextra
+SRCS	:= cub3d.c \
+	render.c \
+	render_utils/draw_background.c \
+	render_utils/draw_fps.c \
+	render_utils/framerate.c \
+	utils/init_game.c \
+	utils/movement.c \
+	utils/errors.c \
+	utils/map_of_the_char.c \
+	utils/extract_texture_path.c \
+	utils/program_validation.c \
+	utils/ft_atoi_rgb.c \
+	utils/north_tex.c \
+	utils/south_tex.c \
+	utils/east_tex.c \
+	utils/west_tex.c
 
-RM = rm -f
+OBJS	:= $(SRCS:.c=.o)
 
-SRCS_MAIN = cub3d.c
+all: libmlx libft $(NAME)
 
-SRCS_UTILS = init_game.c \
-	     errors.c \
-	     map_of_the_char.c \
-	     extract_texture_path.c \
-	     ft_atoi_rgb.c 
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-SRCS_LIBFT = ft_strlen.c \
-	     ft_strcmp.c \
-	     ft_strjoin.c
+libft:
+	@make -C $(LIBFT)
 
-ALL_OBJS = $(SRCS_MAIN:.c=.o) $(SRCS_UTILS:.c=.o) $(SRCS_LIBFT:.c=.o)
+%.o: %.c
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
+	@printf "Compiling: $(notdir $<)\n"
 
-all: $(NAME)
-
-$(NAME): $(ALL_OBJS)
-	$(CC) $(CFLAGS) $^ -o $(NAME)
-
-%.o: %.c cub3d.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	$(RM) $(ALL_OBJS)
+	@rm -rf $(OBJS)
+	@rm -rf $(LIBMLX)/build
+	@make -C $(LIBFT) clean
 
 fclean: clean
-	$(RM) $(NAME)
+	@rm -rf $(NAME)
+	@make -C $(LIBFT) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libmlx libft

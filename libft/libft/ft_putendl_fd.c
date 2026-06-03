@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: ppaula-s <ppaula-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/29 00:08:16 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/05/29 00:09:50 by jhvalenc         ###   ########.fr       */
+/*   Created: 2025/04/11 23:46:23 by ppaula-s          #+#    #+#             */
+/*   Updated: 2025/04/11 23:51:12 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "libft.h"
 
-int	ft_strcmp(const char *str1, const char *str2)
+void	ft_putendl_fd(char *s, int fd)
 {
-	while ((*str1 != '\0' && *str2 != '\0') && (*str1 == *str2))
-	{
-		str1++;
-		str2++;
-	}
-	return (*str1 - *str2);
+	ft_putstr_fd(s, fd);
+	write(fd, "\n", 1);
 }
