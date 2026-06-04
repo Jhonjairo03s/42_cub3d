@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 11:01:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/02 16:57:13 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/03 11:10:48 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 int	ft_atoi_rgb(char **str)
 {
 	int	result;
-	int	sign;
+	int	digits;
 
 	result = 0;
-	sign = 1;
+	digits = 0;
 	while (**str == ' ')
 		(*str)++;
-	if (**str == '-')
-	{
-		sign = -1;
-		(*str)++;
-	}
-	else if (**str == '+')
-		(*str)++;
+	if (**str == '-' || **str == '+')
+		return (-1);
 	while (**str >= '0' && **str <= '9')
 	{
 		result = (result * 10) + (**str - '0');
 		(*str)++;
+		digits++;
 	}
-	while (**str != ',' && **str != '\n')
+	if (digits == 0)
+		return (-1);
+	while (**str == ' ')
 		(*str)++;
-	return (result * sign);
+	if (**str != ',' && **str != '\n' && **str != '\0')
+		return (-1);
+	return (result);
 }
