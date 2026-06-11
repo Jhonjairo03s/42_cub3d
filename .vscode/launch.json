@@ -2,23 +2,40 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++ Runner: Debug Session",
+      "name": "Debug cub3D (WSL)",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
+      "program": "${workspaceFolder}/cub3D",
+      "args": [
+        "maps/prueba.cub"
+      ],
       "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+        {
+          "name": "GALLIUM_DRIVER",
+          "value": "d3d12"
+        }
+      ],
       "externalConsole": false,
-      "cwd": "/home/silvertape9501/proyectos/cub",
-      "program": "/home/silvertape9501/proyectos/cub/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
           "text": "-enable-pretty-printing",
           "ignoreFailures": true
         }
-      ]
+      ],
+      "preLaunchTask": "Build cub3D (WSL)",
+      "pipeTransport": {
+        "pipeProgram": "wsl",
+        "pipeArgs": [],
+        "pipeCwd": "${workspaceFolder}",
+        "debuggerPath": "/usr/bin/gdb"
+      },
+      "sourceFileMap": {
+        "/mnt/c": "c:"
+      }
     }
   ]
 }

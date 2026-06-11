@@ -14,7 +14,7 @@
 
 char	*framecalc(t_game *game)
 {
-	static int	i = 0;
+	static int	i;
 	static char	str[16];
 	char		*tmp;
 	double		sum;

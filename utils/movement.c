@@ -29,15 +29,19 @@ void	rotate_player(t_game *game, double rot_speed)
 		+ game->plane_y * cos(rot_speed);
 }
 
-void	update_view(t_game *game)
+void	mouse_cb(double xpos, double ypos, void *param)
 {
-	double	rot_speed;
+	t_game	*game;
+	double	mouse_delta;
 
-	rot_speed = 2.0 * game->mlx->delta_time;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		rotate_player(game, -rot_speed);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		rotate_player(game, rot_speed);
+	(void)ypos;
+	game = param;
+	mouse_delta = xpos - game->prev_mouse_x;
+	if (mouse_delta != 0)
+	{
+		rotate_player(game, mouse_delta * 0.002);
+		game->prev_mouse_x = xpos;
+	}
 }
 
 static void	move_player(t_game *game, double move_x, double move_y)
@@ -65,23 +69,31 @@ static void	move_player(t_game *game, double move_x, double move_y)
 	}
 }
 
-void	update_movement(t_game *game)
+void	update_movement(t_game *game, double delta_time)
 {
 	double	move_speed;
 
-	move_speed = 3.0 * game->mlx->delta_time;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+	move_speed = 3.0 * delta_time;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		move_player(game, game->dir_x * move_speed, game->dir_y * move_speed);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		move_player(game, -game->dir_x * move_speed, -game->dir_y * move_speed);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
 		move_player(game, game->dir_y * move_speed, -game->dir_x * move_speed);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		move_player(game, -game->dir_y * move_speed, game->dir_x * move_speed);
 }
 
-void	update_player(t_game *game)
+void	update_player(t_game *game, long long elapsed)
 {
-	update_view(game);
-	update_movement(game);
+	double	delta_time;
+	double	rot_speed;
+
+	delta_time = elapsed / 1000.0;
+	rot_speed = 2.0 * delta_time;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		rotate_player(game, -rot_speed);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		rotate_player(game, rot_speed);
+	update_movement(game, delta_time);
 }

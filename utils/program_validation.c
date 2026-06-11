@@ -3,9 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   program_validation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: automated <auto@local>                      +#+  +:+       +#+        */
+/*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 12:30:00 by automated         #+#    #+#             */
+/*   Created: 2026/06/02 12:30:00 by jhvalenc          #+#    #+#             */
 /*   Updated: 2026/06/02 12:30:00 by automated        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */

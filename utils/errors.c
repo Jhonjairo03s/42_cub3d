@@ -14,13 +14,16 @@
 
 int	err_msg(const char *msg, char *str, int code)
 {
-	write(STDERR_FILENO, "Error - ", 8);
+	ssize_t	ret;
+
+	ret = write(STDERR_FILENO, "Error - ", 8);
 	if (msg != NULL)
 	{
-		write(STDERR_FILENO, msg, ft_strlen(msg));
-		write(STDERR_FILENO, ": ", 2);
+		ret = write(STDERR_FILENO, msg, ft_strlen(msg));
+		ret = write(STDERR_FILENO, ": ", 2);
 	}
 	if (str != NULL)
-		write(STDERR_FILENO, str, ft_strlen(str));
+		ret = write(STDERR_FILENO, str, ft_strlen(str));
+	(void)ret;
 	return (code);
 }

@@ -63,17 +63,17 @@ static char	*parse_element(t_game *game, char *cursor, int *elements)
 	char	*path;
 
 	path = skip_and_find(cursor, "NO", elements);
-	if (path && (cursor = master_cursor(path)))
-		return (cursor);
+	if (path)
+		return (master_cursor(path));
 	path = skip_and_find(cursor, "SO", elements);
-	if (path && (cursor = master_cursor(path)))
-		return (cursor);
+	if (path)
+		return (master_cursor(path));
 	path = skip_and_find(cursor, "WE", elements);
-	if (path && (cursor = master_cursor(path)))
-		return (cursor);
+	if (path)
+		return (master_cursor(path));
 	path = skip_and_find(cursor, "EA", elements);
-	if (path && (cursor = master_cursor(path)))
-		return (cursor);
+	if (path)
+		return (master_cursor(path));
 	path = skip_and_find(cursor, "F", elements);
 	if (path && parse_color(&game->floor_color, &path) == 0)
 		return (master_cursor(path));
