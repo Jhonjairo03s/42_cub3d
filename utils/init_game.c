@@ -36,7 +36,7 @@ static void	init_player_and_time(t_game *game)
 	game->dir_x = 0.0;
 	game->dir_y = -1.0;
 	game->alpha = 150;
-	game->plane_x = 0.66;
+	game->plane_x = 0.90;
 	game->plane_y = 0.0;
 	game->time_data.last_time = get_time_in_ms();
 	game->time_data.anim_timer = 0;

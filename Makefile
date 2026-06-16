@@ -1,10 +1,9 @@
-export PATH := /home/pablo/cmake-bin/bin:$(PATH)
-
 CC	:= cc
 NAME	:= cub3D
 CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g3
 LIBMLX	:= ./mlx
 LIBFT	:= ./libft
+CMAKE	:= cmake
 
 HEADERS	:= -I. -I $(LIBMLX)/include -I $(LIBFT)/libft -I ./include
 LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
@@ -25,16 +24,16 @@ SRCS	:= cub3d.c \
 
 OBJS	:= $(addprefix obj/, $(SRCS:.c=.o))
 
-all: libmlx libft $(NAME)
+all: $(NAME)
 
-libmlx:
-	@mkdir -p ~/mlx_build
-	@rsync -a --exclude=build $(LIBMLX)/ ~/mlx_build/
-	@cmake ~/mlx_build -B ~/mlx_build/build && make -C ~/mlx_build/build -j4
-	@mkdir -p $(LIBMLX)/build
-	@cp ~/mlx_build/build/libmlx42.a $(LIBMLX)/build/
+$(LIBMLX)/build/libmlx42.a: FORCE
+	@if [ ! -f "$(LIBMLX)/CMakeLists.txt" ]; then \
+		echo "MLX42 submodule not found, initializing..."; \
+		git submodule update --init --recursive; \
+	fi
+	@$(CMAKE) $(LIBMLX) -B $(LIBMLX)/build && $(CMAKE) --build $(LIBMLX)/build -j4
 
-libft:
+$(LIBFT)/libft.a: FORCE
 	@make -C $(LIBFT)
 
 obj/%.o: %.c
@@ -42,8 +41,9 @@ obj/%.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 	@printf "Compiling: $(notdir $<)\n"
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a
 	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@echo "Linking $(NAME)"
 
 clean:
 	@rm -rf obj
@@ -56,8 +56,6 @@ fclean: clean
 
 re: fclean all
 
-run: all
-	@echo "Forzando X11 / OpenGL (Bypassing Wayland VSync)..."
-	@env WAYLAND_DISPLAY= LIBGL_ALWAYS_SOFTWARE=1 ./$(NAME) maps/prueba.cub
+FORCE:
 
-.PHONY: all clean fclean re run libmlx libft
+.PHONY: all clean fclean re FORCE
