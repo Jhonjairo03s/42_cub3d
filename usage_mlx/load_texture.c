@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:27:14 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/03 12:37:29 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/18 12:38:35 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * poder liberarlo con mlx_destroy_image() al cerrar el programa.
 */
 
-uint32_t	*load_texture(t_game *game, char *path, void **save_img_ptr)
+t_u32	*load_texture(t_game *game, char *path, void **save_img_ptr)
 {
 	t_texture	tex;
 

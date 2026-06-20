@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 21:55:10 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/05 01:41:05 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/20 18:44:10 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_game(t_game *game)
 	game->img_s = NULL;
 	game->img_e = NULL;
 	game->img_w = NULL;
+	game->raw_data = NULL;
 	game->player_x = 0.0;
 	game->player_y = 0.0;
 	game->dir_x = 0.0;

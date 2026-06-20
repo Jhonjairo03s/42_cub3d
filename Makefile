@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/06/16 16:41:59 by jhvalenc         ###   ########.fr        #
+#    Updated: 2026/06/20 17:43:10 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,9 @@ RM = rm -f
 
 SRCS_MAIN = cub3d.c
 
+SRCS_PARSER = parser/map_validation.c \
+	      parser/program_validation.c
+
 SRCS_UTILS = utils/init_game.c \
 	     utils/errors.c \
 	     utils/map_of_the_char.c \
@@ -33,7 +36,8 @@ SRCS_UTILS = utils/init_game.c \
 	     utils/dump_and_fill.c \
 	     utils/init_player.c \
 	     utils/init_vectors.c \
-	     utils/player_vectors.c
+	     utils/player_vectors.c \
+	     utils/iterative_flood_fill.c
 
 SRCS_USAGE_MLX = usage_mlx/load_texture.c
 
@@ -48,8 +52,9 @@ OBJS_MAIN = $(SRCS_MAIN:.c=.o)
 OBJS_UTILS = $(SRCS_UTILS:.c=.o)
 OBJS_USAGE_MLX = $(SRCS_USAGE_MLX:.c=.o)
 OBJS_LIBFT = $(SRCS_LIBFT:.c=.o)
+OBJS_PARSER = $(SRCS_PARSER:.c=.o)
 
-ALL_OBJS = $(OBJS_MAIN) $(OBJS_UTILS) $(OBJS_USAGE_MLX) $(OBJS_LIBFT)
+ALL_OBJS = $(OBJS_MAIN) $(OBJS_UTILS) $(OBJS_USAGE_MLX) $(OBJS_LIBFT) $(OBJS_PARSER)
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/16 16:32:36 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/20 19:25:47 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define BUFFER_SIZE 4096
 
 // Error Messages
+// ----------------------------------------------------------------------------
 # define ERROR_USAGE "./cub3D <maps/*name_map*.cub>\n"
 # define ERROR_LENGTH "Minimum length 5 characters\n"
 # define ERROR_EXTENSION "It must end in .cub\n"
@@ -35,14 +36,21 @@
 # define ERROR_RGB "RGB extraction\n"
 # define ERROR_RANGE_RGB "Out of RGB range [0-255]\n"
 # define ERROR_COMMAS "Without commas, in the color extraction\n"
-# define ERROR_PARSER_MAP "loading file\n"
+// # define ERROR_PARSER_MAP "loading file\n"
 # define ERROR_NOT_PLAYER "Player not found\n"
 # define ERROR_MULTI_PLAYER "Multiple players\n"
+# define ERROR_LIMIT_FF "The map is open\n"
+# define ERROR_SIZE_MAP "Empty map\n"
+# define ERROR_INCOMPLETE_MAP "incomplete map\n"
+// ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
 typedef uint8_t		t_u8;	// usigned char
 typedef uint32_t	t_u32;	// usigned int
 typedef int32_t		t_i32;	// int
+// ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
 typedef struct s_game
 {
 	// Punteros (8 bytes)
@@ -57,6 +65,7 @@ typedef struct s_game
 	t_u32	*tex_e;
 	t_u32	*tex_w;
 	t_u8	*map;
+	char	*raw_data;
 	// Variables con coma flotante (8 bytes)
 	double	player_x;
 	double	player_y;
@@ -76,7 +85,7 @@ typedef struct s_texture
 	// Punteros (8 bytes)
 	void	*img_ptr;
 	t_u32	*pixels;
-	// Entero (4 bytes)
+	// Enteros (4 bytes)
 	int		width;
 	int		height;
 	int		bpp;
@@ -84,12 +93,31 @@ typedef struct s_texture
 	int		endian;
 }	t_texture;
 
+typedef struct s_point
+{
+	// Enteros (4 bytes)
+	int	x;
+	int	y;
+}	t_point;
+// ----------------------------------------------------------------------------
+
+/*
+ * parser/
+*/
+// ----------------------------------------------------------------------------
+char	*scanning_and_extraction(t_game *game, const char *arg);
+t_u8	*topology_and_map_memory(t_game *game, char *parser_tex_color);
+int		program_validation(int ac, const char *arg);
+// ----------------------------------------------------------------------------
+
 /*
  * utils/
 */
 // ----------------------------------------------------------------------------
 void	init_game(t_game *game);
 int		err_msg(const char *msg, char *str, int code);
+int		free_and_return(t_u8 *map, t_point *stack, int code);
+void	clean_exit(t_game *game);
 char	*parser_map(const char *buf);
 char	*master_cursor(char *cursor);
 char	*parse_path(t_game *game, char *map);
@@ -105,13 +133,14 @@ void	init_vector_n(t_game *game);
 void	init_vector_s(t_game *game);
 void	init_vector_e(t_game *game);
 void	init_vector_w(t_game *game);
+int		iteractive_flood_fill(t_game *game);
 // ----------------------------------------------------------------------------
 
 /*
  * usage_mlx/
 */
 // ----------------------------------------------------------------------------
-uint32_t	*load_texture(t_game *game, char *path, void **save_img_ptr);
+t_u32	*load_texture(t_game *game, char *path, void **save_img_ptr);
 // ----------------------------------------------------------------------------
 
 /*
@@ -128,6 +157,6 @@ void	*ft_memset(void *s, int c, size_t len);
 /*
  * debug
 */
-void	debug_print_parse(t_game *game);
+void	debug_print_final_struct(t_game *game);
 
 #endif

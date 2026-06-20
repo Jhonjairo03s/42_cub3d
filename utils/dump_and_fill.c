@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 22:23:30 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/15 23:17:46 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/20 19:14:02 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_u8	*dump_machine(char *src, t_game *game)
 	while (*src != '\0' && y < game->map_height)
 	{
 		if (*src == '1' || *src == '0' || *src == 'N' || *src == 'S'
-			|| *src == 'E' || *src == 'W' || *src == ' ')
+			|| *src == 'E' || *src == 'W' || *src == ' ' || *src == '\t')
 		{
 			index = (y * game->map_width) + x;
 			game->map[index] = *src;
@@ -46,6 +46,8 @@ t_u8	*dump_and_fill(char *cursor, t_game *game)
 	t_u8	*map_fill;
 
 	src = cursor;
+	while (*src == '\n')
+		src++;
 	map_fill = dump_machine(src, game);
 	return (map_fill);
 }

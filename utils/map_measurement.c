@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:33:34 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/17 11:19:53 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/06/20 18:50:11 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	parser_map_width(char *scout)
 	int	map_width;
 
 	if (scout == NULL || *scout == '\0')
-		return (-1);
+		return (err_msg("width", ERROR_SIZE_MAP, -1));
 	map_width = 0;
 	current_width = 0;
 	while (*scout != '\0')
@@ -45,7 +45,7 @@ int	parser_map_height(char *scout)
 	int	line_len;
 
 	if (scout == NULL || *scout == '\0')
-		return (-1);
+		return (err_msg("height", ERROR_SIZE_MAP, -1));
 	map_height = 0;
 	map_ended = 0;
 	line_len = 0;
@@ -63,7 +63,7 @@ int	parser_map_height(char *scout)
 			if ((*scout == '1' || *scout == '0' || *scout == 'N'
 					|| *scout == 'W' || *scout == 'E'
 					|| *scout == 'S') && map_ended == 1)
-				return (-1);
+				return (err_msg("height", ERROR_INCOMPLETE_MAP, -1));
 			line_len++;
 		}
 		scout++;
@@ -79,6 +79,8 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	int		map_width;
 	int		map_height;
 
+	while (*map_start_cursor == '\n')
+		map_start_cursor++;
 	scout = map_start_cursor;
 	map_width = parser_map_width(scout);
 	if (map_width == -1)
