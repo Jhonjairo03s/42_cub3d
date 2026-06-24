@@ -7,7 +7,7 @@ LIBMLX	:= ./mlx
 LIBFT	:= ./libft
 
 HEADERS	:= -I. -I $(LIBMLX)/include -I $(LIBFT)/libft -I ./include
-LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
+LIBS	:= $(LIBMLX)/build/libmlx42.a $(LIBFT)/libft.a -L/usr/local/lib -lglfw3 -lX11 -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -ldl -pthread -lm
 
 SRCS	:= cub3d.c \
 	render.c \
