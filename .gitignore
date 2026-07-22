@@ -1,2 +1,6 @@
-minilibx-linux
+cub3D
+*.o
+*.a
+obj/
 MLX42
+resto/
