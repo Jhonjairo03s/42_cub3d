@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:56:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	update_enemy(t_game *game, long long elapsed);
 t_img	*load_texture(void *mlx_ptr, char *path);
 t_img	*select_texture(t_game *game, t_ray *ray);
 void	render_minimap(t_game *game);
+void	draw_fps_bonus(t_game *game);
 
 /*
  * src/events/

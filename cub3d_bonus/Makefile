@@ -6,11 +6,11 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 17:45:00 by ppaula-s         ###   ########.fr       #
+#    Updated: 2026/07/22 17:56:00 by ppaula-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D
+NAME = cub3D_bonus
 
 MLX_DIR = lib/mlx
 LIBFT_DIR = lib/libft
@@ -41,6 +41,7 @@ SRCS = src/main.c \
        src/render/textures.c \
        src/render/render_sprite_bonus.c \
        src/render/minimap_bonus.c \
+       src/render/fps_bonus.c \
        src/events/key_hooks.c \
        src/events/doors_bonus.c \
        src/events/mouse_bonus.c \
