@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 14:00:01 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 16:55:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,44 +52,33 @@ char	*master_cursor(char *cursor)
 	return (cursor + ft_strlen(cursor) + 1);
 }
 
-static int	check_parse(t_game *game, char **cursor, int *elements_found)
+static int	parse_tex_helper(t_game *game, char **cursor, int *found)
 {
 	if (ft_strncmp(*cursor, "NO ", 3) == 0 && parse_texture(game, cursor,
-			&game->tex_n) == 0)
-	{
-		(*elements_found)++;
-		return (0);
-	}
+			&game->tex_n) == 0 && ++(*found))
+		return (1);
 	if (ft_strncmp(*cursor, "SO ", 3) == 0 && parse_texture(game, cursor,
-			&game->tex_s) == 0)
-	{
-		(*elements_found)++;
-		return (0);
-	}
+			&game->tex_s) == 0 && ++(*found))
+		return (1);
 	if (ft_strncmp(*cursor, "WE ", 3) == 0 && parse_texture(game, cursor,
-			&game->tex_w) == 0)
-	{
-		(*elements_found)++;
-		return (0);
-	}
+			&game->tex_w) == 0 && ++(*found))
+		return (1);
 	if (ft_strncmp(*cursor, "EA ", 3) == 0 && parse_texture(game, cursor,
-			&game->tex_e) == 0)
-	{
-		(*elements_found)++;
+			&game->tex_e) == 0 && ++(*found))
+		return (1);
+	return (0);
+}
+
+static int	check_parse(t_game *game, char **cursor, int *elements_found)
+{
+	if (parse_tex_helper(game, cursor, elements_found))
 		return (0);
-	}
 	if (ft_strncmp(*cursor, "F ", 2) == 0 && parse_color(cursor,
-			&game->floor_color) == 0)
-	{
-		(*elements_found)++;
+			&game->floor_color) == 0 && ++(*elements_found))
 		return (0);
-	}
 	if (ft_strncmp(*cursor, "C ", 2) == 0 && parse_color(cursor,
-			&game->ceil_color) == 0)
-	{
-		(*elements_found)++;
+			&game->ceil_color) == 0 && ++(*elements_found))
 		return (0);
-	}
 	if (**cursor == '\n' || **cursor == '\r')
 	{
 		(*cursor)++;

@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 16:55:00 by ppaula-s         ###   ########.fr        #
+#    Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,15 +26,18 @@ RM = rm -rf
 
 SRCS = src/main.c \
        src/init/init_game.c \
+       src/init/init_player.c \
        src/init/init_mlx.c \
        src/parse/parse_file.c \
        src/parse/parse_map.c \
        src/parse/parse_map_size.c \
        src/parse/parse_colors.c \
        src/parse/validate_walls.c \
+       src/parse/flood_fill.c \
        src/raycast/raycast_calc.c \
        src/raycast/dda.c \
        src/render/draw_walls.c \
+       src/render/draw_bg.c \
        src/render/textures.c \
        src/events/key_hooks.c \
        src/events/movement.c \

@@ -51,7 +51,7 @@ static int	process_height_char(char c, int *map_height, int *map_ended,
 	else
 	{
 		if ((c == '1' || c == '0' || c == 'N' || c == 'W' || c == 'S'
-				|| c == 'E' || c == 'D' || c == 'O') && *map_ended == 1)
+				|| c == 'E') && *map_ended == 1)
 			return (err_msg("height", ERROR_INCOMPLETE_MAP, -1));
 		(*line_len)++;
 	}

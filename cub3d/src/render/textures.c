@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:27:14 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,28 @@ static char	*get_xpm_path(char *path)
 	return (xpm_path);
 }
 
+static void	*open_xpm(void *mlx_ptr, char *path)
+{
+	void	*ptr;
+	char	*xpm_path;
+	int		w;
+	int		h;
+
+	xpm_path = get_xpm_path(path);
+	ptr = NULL;
+	if (xpm_path)
+	{
+		ptr = mlx_xpm_file_to_image(mlx_ptr, xpm_path, &w, &h);
+		free(xpm_path);
+	}
+	if (!ptr)
+		ptr = mlx_xpm_file_to_image(mlx_ptr, path, &w, &h);
+	return (ptr);
+}
+
 t_img	*load_texture(void *mlx_ptr, char *path)
 {
 	t_img	*img;
-	char	*xpm_path;
 
 	if (!mlx_ptr || !path)
 		return (NULL);
@@ -43,18 +61,7 @@ t_img	*load_texture(void *mlx_ptr, char *path)
 	if (!img)
 		return (NULL);
 	ft_memset(img, 0, sizeof(t_img));
-	xpm_path = get_xpm_path(path);
-	if (xpm_path)
-	{
-		img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, xpm_path,
-				&img->width, &img->height);
-		free(xpm_path);
-	}
-	if (!img->img_ptr)
-	{
-		img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path,
-				&img->width, &img->height);
-	}
+	img->img_ptr = open_xpm(mlx_ptr, path);
 	if (!img->img_ptr)
 	{
 		free(img);
@@ -62,6 +69,7 @@ t_img	*load_texture(void *mlx_ptr, char *path)
 	}
 	img->addr = mlx_get_data_addr(img->img_ptr, &img->bpp,
 			&img->line_len, &img->endian);
+	mlx_get_color_value(mlx_ptr, 0);
 	return (img);
 }
 
@@ -71,14 +79,9 @@ t_img	*select_texture(t_game *game, t_ray *ray)
 	{
 		if (ray->ray_dir_x < 0)
 			return (game->tex_w);
-		else
-			return (game->tex_e);
+		return (game->tex_e);
 	}
-	else
-	{
-		if (ray->ray_dir_y < 0)
-			return (game->tex_n);
-		else
-			return (game->tex_s);
-	}
+	if (ray->ray_dir_y < 0)
+		return (game->tex_n);
+	return (game->tex_s);
 }
