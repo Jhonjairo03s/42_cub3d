@@ -6,11 +6,23 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 13:22:46 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/16 16:38:23 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/20 18:46:01 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+static void	set_player_direction(t_game *game, char direction)
+{
+	if (direction == 'N')
+		init_vector_n(game);
+	else if (direction == 'S')
+		init_vector_s(game);
+	else if (direction == 'E')
+		init_vector_e(game);
+	else if (direction == 'W')
+		init_vector_w(game);
+}
 
 static int	player_x_y(t_game *game)
 {
@@ -28,14 +40,7 @@ static int	player_x_y(t_game *game)
 		{
 			game->player_x = (index % game->map_width) + 0.5;
 			game->player_y = (index / game->map_width) + 0.5;
-			if (game->map[index] == 'N')
-				init_vector_n(game);
-			else if (game->map[index] == 'S')
-				init_vector_s(game);
-			else if (game->map[index] == 'E')
-				init_vector_e(game);
-			else if (game->map[index] == 'W')
-				init_vector_w(game);
+			set_player_direction(game, game->map[index]);
 			game->map[index] = '0';
 			player_count++;
 		}

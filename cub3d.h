@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/20 19:25:47 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/21 19:58:11 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 
-# include "minilibx-linux/mlx.h"
+//# include "minilibx-linux/mlx.h"
+# include "MLX42/include/MLX42/MLX42.h"
 
 # define BUFFER_SIZE 4096
 
@@ -32,7 +33,7 @@
 # define ERROR_EXTENSION "It must end in .cub\n"
 # define ERROR_FD_OPEN "opening the file\n"
 # define ERROR_FD_DIR_OPEN "It's a directory, not a map\n"
-# define ERROR_TEXTURE "loading XPM file\n"
+# define ERROR_TEXTURE "loading texture\n"
 # define ERROR_RGB "RGB extraction\n"
 # define ERROR_RANGE_RGB "Out of RGB range [0-255]\n"
 # define ERROR_COMMAS "Without commas, in the color extraction\n"
@@ -54,6 +55,7 @@ typedef int32_t		t_i32;	// int
 typedef struct s_game
 {
 	// Punteros (8 bytes)
+	/*
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_n;
@@ -64,6 +66,12 @@ typedef struct s_game
 	t_u32	*tex_s;
 	t_u32	*tex_e;
 	t_u32	*tex_w;
+	*/
+	mlx_t	*mlx;
+	mlx_texture_t	*tex_n;
+	mlx_texture_t	*tex_s;
+	mlx_texture_t	*tex_e;
+	mlx_texture_t	*tex_w;
 	t_u8	*map;
 	char	*raw_data;
 	// Variables con coma flotante (8 bytes)
@@ -106,7 +114,7 @@ typedef struct s_point
 */
 // ----------------------------------------------------------------------------
 char	*scanning_and_extraction(t_game *game, const char *arg);
-t_u8	*topology_and_map_memory(t_game *game, char *parser_tex_color);
+int		topology_and_map_memory(t_game *game, char *parser_tex_color);
 int		program_validation(int ac, const char *arg);
 // ----------------------------------------------------------------------------
 
@@ -122,7 +130,8 @@ char	*parser_map(const char *buf);
 char	*master_cursor(char *cursor);
 char	*parse_path(t_game *game, char *map);
 int		ft_atoi_rgb(char **str);
-int		parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img);
+//int		parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img);
+int		parse_texture(char **cursor, mlx_texture_t **tex);
 int		parse_color(char **cursor, t_u32 *color);
 int		parser_map_width(char *scout);
 int		parser_map_height(char *scout);
@@ -140,7 +149,8 @@ int		iteractive_flood_fill(t_game *game);
  * usage_mlx/
 */
 // ----------------------------------------------------------------------------
-t_u32	*load_texture(t_game *game, char *path, void **save_img_ptr);
+//t_u32	*load_texture(t_game *game, char *path, void **save_img_ptr);
+mlx_texture_t	*load_texture_agnostic(char *path);
 // ----------------------------------------------------------------------------
 
 /*

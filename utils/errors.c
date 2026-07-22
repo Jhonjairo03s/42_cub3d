@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 23:27:35 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/20 19:48:28 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/20 18:08:56 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,16 @@ int	free_and_return(t_u8 *map, t_point *stack, int code)
 
 void	clean_exit(t_game *game)
 {
-	if (game->img_n != NULL)
-		mlx_destroy_image(game->mlx_ptr, game->img_n);
-	if (game->img_s != NULL)
-		mlx_destroy_image(game->mlx_ptr, game->img_s);
-	if (game->img_e != NULL)
-		mlx_destroy_image(game->mlx_ptr, game->img_e);
-	if (game->img_w != NULL)
-		mlx_destroy_image(game->mlx_ptr, game->img_w);
-	if (game->mlx_ptr != NULL)
-	{
-		mlx_destroy_display(game->mlx_ptr);
-		free(game->mlx_ptr);
-	}
+	if (game->tex_n != NULL)
+		mlx_delete_texture(game->tex_n);
+	if (game->tex_s != NULL)
+		mlx_delete_texture(game->tex_s);
+	if (game->tex_e != NULL)
+		mlx_delete_texture(game->tex_e);
+	if (game->tex_w != NULL)
+		mlx_delete_texture(game->tex_w);
+	if (game->mlx != NULL)
+		mlx_terminate(game->mlx);
 	if (game->raw_data != NULL)
 		free(game->raw_data);
 	if (game->map != NULL)

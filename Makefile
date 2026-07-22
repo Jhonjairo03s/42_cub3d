@@ -6,18 +6,22 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/06/20 17:43:10 by jhvalenc         ###   ########.fr        #
+#    Updated: 2026/07/14 18:40:03 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-MLX_PATH = minilibx-linux
-MLX_LIB = $(MLX_PATH)/libmlx.a
-MLX_FLAGS = -L$(MLX_PATH) -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz
+# MLX_PATH = minilibx-linux
+# MLX_LIB = $(MLX_PATH)/libmlx.a
+MLX_PATH = MLX42
+MLX_LIB = $(MLX_PATH)/build/libmlx42.a
+# MLX_FLAGS = -L$(MLX_PATH) -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz
+MLX_FLAGS = $(MLX_LIB) -ldl -lglfw -pthread -lm
 
 CC = cc
-CFLAGS = -g -Wall -Werror -Wextra -I$(MLX_PATH)
+# CFLAGS = -g -Wall -Werror -Wextra -I$(MLX_PATH)
+CFLAGS = -g -Wall -Werror -Wextra -Iinclude -I$(MLX_PATH)/MLX42
 
 RM = rm -f
 
@@ -59,10 +63,13 @@ ALL_OBJS = $(OBJS_MAIN) $(OBJS_UTILS) $(OBJS_USAGE_MLX) $(OBJS_LIBFT) $(OBJS_PAR
 all: $(NAME)
 
 $(MLX_LIB):
-	@make -C $(MLX_PATH)
+	# @make -C $(MLX_PATH)
+	@cmake $(MLX_PATH) -B $(MLX_PATH)/build
+	@make -C $(MLX_PATH)/build -j4
 
 $(NAME): $(ALL_OBJS) $(MLX_LIB)
-	$(CC) $(CFLAGS) $(ALL_OBJS) $(MLX_LIB) $(MLX_FLAGS) -o $@
+	# $(CC) $(CFLAGS) $(ALL_OBJS) $(MLX_LIB) $(MLX_FLAGS) -o $@
+	$(CC) $(CFLAGS) $(ALL_OBJS) $(MLX_FLAGS) -o $@
 
 %.o: %.c cub3d.h
 	$(CC) $(CFLAGS) -c $< -o $@

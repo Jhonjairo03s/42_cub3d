@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/10 18:07:47 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/20 17:52:47 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/14 18:10:30 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	debug_print_final_struct(t_game *game)
 	printf("Techo (C) : 0x%06X\n", game->ceil_color);
 	printf("Suelo (F) : 0x%06X\n", game->floor_color);
 	printf("Texturas  : NO(%p) SO(%p) WE(%p) EA(%p)\n",
-		game->tex_n, game->tex_s, game->tex_w, game->tex_e);
+		(void *)game->tex_n, (void *)game->tex_s, (void *)game->tex_w, (void *)game->tex_e);
 
 	printf("\n--- TOPOLOGÍA ---\n");
 	printf("Resolución de la cuadrícula: %d x %d\n", game->map_width, game->map_height);

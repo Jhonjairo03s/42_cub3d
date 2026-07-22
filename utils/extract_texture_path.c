@@ -6,13 +6,14 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/10 19:35:21 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/21 18:42:15 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include <stdio.h>
 
+/*
 static int	check_parse(t_game *game, char **cursor, int *elements_found)
 {
 	if (ft_strncmp(*cursor, "NO ", 3) == 0 && parse_texture(game, cursor,
@@ -26,6 +27,33 @@ static int	check_parse(t_game *game, char **cursor, int *elements_found)
 		return ((*elements_found)++, 0);
 	else if (ft_strncmp(*cursor, "EA ", 3) == 0 && parse_texture(game, cursor,
 			&game->tex_e, &game->img_e) == 0)
+		return ((*elements_found)++, 0);
+	else if (ft_strncmp(*cursor, "F ", 2) == 0 && parse_color(cursor,
+			&game->floor_color) == 0)
+		return ((*elements_found)++, 0);
+	else if (ft_strncmp(*cursor, "C ", 2) == 0 && parse_color(cursor,
+			&game->ceil_color) == 0)
+		return ((*elements_found)++, 0);
+	else if (**cursor == '\n')
+		return ((*cursor)++, 0);
+	else
+		return (-1);
+}
+*/
+
+static int	check_parse(t_game *game, char **cursor, int *elements_found)
+{
+	if (ft_strncmp(*cursor, "NO ", 3) == 0 && parse_texture(cursor,
+			&game->tex_n) == 0)
+		return ((*elements_found)++, 0);
+	else if (ft_strncmp(*cursor, "SO ", 3) == 0 && parse_texture(cursor,
+			&game->tex_s) == 0)
+		return ((*elements_found)++, 0);
+	else if (ft_strncmp(*cursor, "WE ", 3) == 0 && parse_texture(cursor,
+			&game->tex_w) == 0)
+		return ((*elements_found)++, 0);
+	else if (ft_strncmp(*cursor, "EA ", 3) == 0 && parse_texture(cursor,
+			&game->tex_e) == 0)
 		return ((*elements_found)++, 0);
 	else if (ft_strncmp(*cursor, "F ", 2) == 0 && parse_color(cursor,
 			&game->floor_color) == 0)
@@ -92,6 +120,7 @@ static int	check_parse(t_game *game, char **cursor, int *elements_found)
 	return (err_msg("Parser", "Caracter o elemento invalido en metadatos", -1));
 }
 */
+
 char	*parse_path(t_game *game, char *map)
 {
 	char	*cursor;

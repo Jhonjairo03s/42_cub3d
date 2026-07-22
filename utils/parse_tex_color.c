@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 01:26:13 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/20 18:09:02 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/21 18:59:16 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*master_cursor(char *cursor)
 	return (cursor);
 }
 
+/*
 int	parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img)
 {
 	char	*path_start;
@@ -36,6 +37,22 @@ int	parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img)
 	*tex = load_texture(game, path_start, img);
 	if (*tex == NULL)
 		return (err_msg("Texture", ERROR_TEXTURE, -1));
+	return (0);
+}
+*/
+
+int	parse_texture(char **cursor, mlx_texture_t **tex)
+{
+	char	*path_start;
+
+	*cursor = *cursor + 3;
+	while (**cursor == ' ')
+		(*cursor)++;
+	path_start = *cursor;
+	*cursor = master_cursor(path_start);
+	*tex = load_texture_agnostic(path_start);
+	if (*tex == NULL)
+		return (-1);
 	return (0);
 }
 
@@ -71,6 +88,6 @@ int	parse_color(char **cursor, t_u32 *color)
 			(*cursor)++;
 		index++;
 	}
-	*color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	*color = (rgb[0] << 24) | (rgb[1] << 16) | ( rgb[2] << 8) | 255;
 	return (0);
 }
