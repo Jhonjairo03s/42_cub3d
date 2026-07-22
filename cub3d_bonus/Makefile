@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr        #
+#    Updated: 2026/07/22 17:45:00 by ppaula-s         ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ clean:
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean
-	$(RM) $(NAME)
+	$(RM) $(NAME) cub3D
 
 re: fclean all
 

@@ -6,101 +6,119 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 16:40:00 by ppaula-s          #+#    #+#             */
-/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:45:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-static void	draw_square(t_img *img, int pos[2], int size, int color)
-{
-	int	i;
-	int	j;
+#define RADAR_R 55
+#define RADAR_CX 70
+#define RADAR_CY 70
 
-	i = 0;
-	while (i < size - 1)
-	{
-		j = 0;
-		while (j < size - 1)
-		{
-			my_mlx_pixel_put(img, pos[0] + i, pos[1] + j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
-static int	get_tile_color(t_game *game, int x, int y)
+static int	get_radar_color(t_game *game, double wx, double wy)
 {
+	int		mx;
+	int		my;
 	char	tile;
 
-	if (x >= 0 && x < game->map_width && y >= 0 && y < game->map_height)
-	{
-		tile = game->map[y * game->map_width + x];
-		if (tile == '1')
-			return (0x00888888);
-		if (tile == '0')
-			return (0x00444444);
-		if (tile == 'D')
-			return (0x000088FF);
-		if (tile == 'O')
-			return (0x0000FFAA);
-	}
-	return (0x00222222);
+	mx = (int)wx;
+	my = (int)wy;
+	if (mx < 0 || mx >= game->map_width || my < 0 || my >= game->map_height)
+		return (0x111122);
+	tile = game->map[my * game->map_width + mx];
+	if (tile == '1')
+		return (0x445577);
+	if (tile == '0')
+		return (0x222233);
+	if (tile == 'D')
+		return (0xAA6622);
+	if (tile == 'O')
+		return (0x22AA66);
+	return (0x111122);
 }
 
-static void	draw_minimap_tiles(t_game *game, int offset[2], int scale, int r)
+static void	draw_radar_border(t_game *game)
 {
-	int	coord[2];
-	int	draw_pos[2];
+	int		d[2];
+	int		dist_sq;
+	double	nx;
+	double	ny;
 
-	coord[1] = (int)game->player_y - r;
-	while (coord[1] <= (int)game->player_y + r)
+	d[1] = -RADAR_R - 2;
+	while (++d[1] <= RADAR_R + 2)
 	{
-		coord[0] = (int)game->player_x - r;
-		while (coord[0] <= (int)game->player_x + r)
+		d[0] = -RADAR_R - 2;
+		while (++d[0] <= RADAR_R + 2)
 		{
-			draw_pos[0] = offset[0]
-				+ (coord[0] - ((int)game->player_x - r)) * scale;
-			draw_pos[1] = offset[1]
-				+ (coord[1] - ((int)game->player_y - r)) * scale;
-			draw_square(&game->frame, draw_pos, scale,
-				get_tile_color(game, coord[0], coord[1]));
-			coord[0]++;
+			dist_sq = d[0] * d[0] + d[1] * d[1];
+			if (dist_sq >= RADAR_R * RADAR_R
+				&& dist_sq <= (RADAR_R + 3) * (RADAR_R + 3))
+				my_mlx_pixel_put(&game->frame, RADAR_CX + d[0],
+					RADAR_CY + d[1], 0x00FFCC);
 		}
-		coord[1]++;
+	}
+	nx = -game->dir_y;
+	ny = -game->dir_x;
+	my_mlx_pixel_put(&game->frame, RADAR_CX + (int)(nx * RADAR_R),
+		RADAR_CY + (int)(ny * RADAR_R), 0xFF0000);
+}
+
+static void	draw_radar_pixels(t_game *game)
+{
+	int		d[2];
+	double	world[2];
+	double	scale;
+
+	scale = 0.12;
+	d[1] = -RADAR_R;
+	while (d[1] <= RADAR_R)
+	{
+		d[0] = -RADAR_R;
+		while (d[0] <= RADAR_R)
+		{
+			if (d[0] * d[0] + d[1] * d[1] < RADAR_R * RADAR_R)
+			{
+				world[0] = game->player_x + (d[0] * game->plane_x
+						+ d[1] * game->dir_x) * scale;
+				world[1] = game->player_y + (d[0] * game->plane_y
+						+ d[1] * game->dir_y) * scale;
+				my_mlx_pixel_put(&game->frame, RADAR_CX + d[0],
+					RADAR_CY + d[1], get_radar_color(game,
+						world[0], world[1]));
+			}
+			d[0]++;
+		}
+		d[1]++;
 	}
 }
 
-static void	draw_player_icon(t_game *game, int offset[2], int scale, int r)
+static void	draw_center_player(t_game *game)
 {
-	int	pos[2];
-	int	i;
+	int	x;
+	int	y;
 
-	pos[0] = offset[0] + r * scale
-		+ (int)((game->player_x - (int)game->player_x) * scale);
-	pos[1] = offset[1] + r * scale
-		+ (int)((game->player_y - (int)game->player_y) * scale);
-	pos[0] -= 2;
-	pos[1] -= 2;
-	draw_square(&game->frame, pos, 5, 0x00FF0000);
-	pos[0] += 2;
-	pos[1] += 2;
-	i = 0;
-	while (i < 12)
+	y = -2;
+	while (y <= 2)
 	{
-		my_mlx_pixel_put(&game->frame, pos[0] + (int)(game->dir_x * i),
-			pos[1] + (int)(game->dir_y * i), 0x00FFFF00);
-		i++;
+		x = -2;
+		while (x <= 2)
+		{
+			if (x * x + y * y <= 4)
+				my_mlx_pixel_put(&game->frame, RADAR_CX + x,
+					RADAR_CY + y, 0xFF0055);
+			x++;
+		}
+		y++;
 	}
+	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 3, 0xFFFF00);
+	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 4, 0xFFFF00);
+	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 5, 0xFFFF00);
 }
 
 void	render_minimap(t_game *game)
 {
-	int	offset[2];
-
-	offset[0] = 15;
-	offset[1] = 15;
-	draw_minimap_tiles(game, offset, 8, 8);
-	draw_player_icon(game, offset, 8, 8);
+	draw_radar_pixels(game);
+	draw_radar_border(game);
+	draw_center_player(game);
 }

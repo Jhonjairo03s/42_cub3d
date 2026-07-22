@@ -6,20 +6,36 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 17:15:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:45:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
+static unsigned int	get_anim_color(void)
+{
+	int64_t	t;
+
+	t = (get_time_in_ms() / 250) % 4;
+	if (t == 0)
+		return (0x00FF3333);
+	if (t == 1)
+		return (0x00FF9900);
+	if (t == 2)
+		return (0x00FFFF00);
+	return (0x00FF00AA);
+}
+
 static void	draw_sprite_stripe(t_game *game, t_sprite_draw *draw, int stripe)
 {
-	int	y;
+	int				y;
+	unsigned int	color;
 
+	color = get_anim_color();
 	y = draw->draw_start_y;
 	while (y < draw->draw_end_y)
 	{
-		my_mlx_pixel_put(&game->frame, stripe, y, 0x00FF0000);
+		my_mlx_pixel_put(&game->frame, stripe, y, (int)color);
 		y++;
 	}
 }
