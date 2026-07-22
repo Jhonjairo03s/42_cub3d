@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 18:08:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void	draw_wall_slice(t_game *game, t_ray *ray, int x)
 	if (tex && tex->width > 0 && tex->height > 0)
 	{
 		params[1] = (int)(wall_x * (double)tex->width);
-		if (ray->side == 0 && ray->ray_dir_x > 0)
+		if (ray->side == 0 && ray->ray_dir_x < 0)
 			params[1] = tex->width - params[1] - 1;
-		if (ray->side == 1 && ray->ray_dir_y < 0)
+		if (ray->side == 1 && ray->ray_dir_y > 0)
 			params[1] = tex->width - params[1] - 1;
 		put_wall_pixel(game, tex, ray, params);
 		return ;
