@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:56:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:59:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	game_loop(t_game *game)
 	{
 		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
 			game->frame.img_ptr, 0, 0);
-		draw_fps_bonus(game);
+		if (game->show_fps)
+			draw_fps_bonus(game);
 	}
 	return (0);
 }

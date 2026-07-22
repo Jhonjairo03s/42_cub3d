@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:59:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	key_press_hook(int keycode, t_game *game)
 		game->keys.right = 1;
 	if (keycode == 101 || keycode == 69 || keycode == 32)
 		toggle_door(game);
-	if (keycode == 65472)
+	if (keycode == 102 || keycode == 70)
 		game->show_fps = !game->show_fps;
 	return (0);
 }
