@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:27:14 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:51:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,20 @@ static char	*get_xpm_path(char *path)
 	return (xpm_path);
 }
 
-static void	*open_xpm(void *mlx_ptr, char *path)
+static void	*open_xpm(void *mlx_ptr, char *path, int *w, int *h)
 {
 	void	*ptr;
 	char	*xpm_path;
-	int		w;
-	int		h;
 
 	xpm_path = get_xpm_path(path);
 	ptr = NULL;
 	if (xpm_path)
 	{
-		ptr = mlx_xpm_file_to_image(mlx_ptr, xpm_path, &w, &h);
+		ptr = mlx_xpm_file_to_image(mlx_ptr, xpm_path, w, h);
 		free(xpm_path);
 	}
 	if (!ptr)
-		ptr = mlx_xpm_file_to_image(mlx_ptr, path, &w, &h);
+		ptr = mlx_xpm_file_to_image(mlx_ptr, path, w, h);
 	return (ptr);
 }
 
@@ -61,7 +59,7 @@ t_img	*load_texture(void *mlx_ptr, char *path)
 	if (!img)
 		return (NULL);
 	ft_memset(img, 0, sizeof(t_img));
-	img->img_ptr = open_xpm(mlx_ptr, path);
+	img->img_ptr = open_xpm(mlx_ptr, path, &img->width, &img->height);
 	if (!img->img_ptr)
 	{
 		free(img);
@@ -69,7 +67,6 @@ t_img	*load_texture(void *mlx_ptr, char *path)
 	}
 	img->addr = mlx_get_data_addr(img->img_ptr, &img->bpp,
 			&img->line_len, &img->endian);
-	mlx_get_color_value(mlx_ptr, 0);
 	return (img);
 }
 

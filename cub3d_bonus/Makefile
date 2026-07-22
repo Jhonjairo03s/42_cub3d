@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D_bonus
+NAME = cub3D
 
 MLX_DIR = lib/mlx
 LIBFT_DIR = lib/libft
