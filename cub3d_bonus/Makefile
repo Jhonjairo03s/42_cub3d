@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 17:56:00 by ppaula-s         ###   ########.fr        #
+#    Updated: 2026/07/22 18:14:00 by ppaula-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRCS = src/main.c \
        src/raycast/raycast_calc.c \
        src/raycast/dda.c \
        src/render/draw_walls.c \
-       src/render/draw_bg.c \
        src/render/textures.c \
        src/render/render_sprite_bonus.c \
        src/render/minimap_bonus.c \

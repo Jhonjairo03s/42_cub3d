@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 18:10:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 18:14:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,68 @@
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
-	char	*dst;
+	uint32_t	*dst;
 
 	if (x < 0 || x >= RESX || y < 0 || y >= RESY)
 		return ;
 	if (!img || !img->addr)
 		return ;
-	dst = img->addr + (y * img->line_len + (x * 4));
-	*(unsigned int *)dst = (unsigned int)color;
+	dst = (uint32_t *)(img->addr + (y * img->line_len + (x * 4)));
+	*dst = (uint32_t)color;
 }
 
-static unsigned int	get_tex_pixel(t_img *tex, int x, int y)
+static uint32_t	sample_texture(t_img *tex, int tex_x, int tex_y)
 {
-	char	*src;
+	uint32_t	*pixels;
+	int			pitch;
 
 	if (!tex || !tex->addr)
 		return (0x00808080);
-	if (x < 0)
-		x = 0;
-	if (x >= tex->width)
-		x = tex->width - 1;
-	if (y < 0)
-		y = 0;
-	if (y >= tex->height)
-		y = tex->height - 1;
-	src = tex->addr + (y * tex->line_len + (x * 4));
-	return (*(unsigned int *)src);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= tex->width)
+		tex_x = tex->width - 1;
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= tex->height)
+		tex_y = tex->height - 1;
+	pitch = tex->line_len / 4;
+	pixels = (uint32_t *)tex->addr;
+	return (pixels[tex_y * pitch + tex_x]);
 }
 
-static void	put_wall_pixel(t_game *game, t_img *tex, t_ray *ray, int params[3])
+static void	draw_column(t_game *game, t_ray *ray, t_img *tex, int p[3])
 {
-	int				y;
-	double			step;
-	double			tex_pos;
-	unsigned int	color;
+	uint32_t	*buf;
+	int			y;
+	double		step;
+	double		pos;
 
+	buf = (uint32_t *)game->frame.addr;
+	y = -1;
+	while (++y < ray->draw_start)
+		buf[y * RESX + p[0]] = game->ceil_color;
 	step = 1.0 * tex->height / ray->line_height;
-	tex_pos = (ray->draw_start - RESY / 2.0 + ray->line_height / 2.0)
-		* step;
-	y = ray->draw_start;
-	while (y <= ray->draw_end)
+	pos = (ray->draw_start - RESY / 2.0 + ray->line_height / 2.0) * step;
+	y = ray->draw_start - 1;
+	while (++y <= ray->draw_end)
 	{
-		params[2] = (int)tex_pos;
-		if (params[2] < 0)
-			params[2] = 0;
-		if (params[2] >= tex->height)
-			params[2] = tex->height - 1;
-		tex_pos += step;
-		color = get_tex_pixel(tex, params[1], params[2]);
-		my_mlx_pixel_put(&game->frame, params[0], y, (int)color);
-		y++;
+		p[2] = (int)pos;
+		pos += step;
+		buf[y * RESX + p[0]] = sample_texture(tex, p[1], p[2]);
 	}
+	y = ray->draw_end;
+	while (++y < RESY)
+		buf[y * RESX + p[0]] = game->floor_color;
 }
 
 void	draw_wall_slice(t_game *game, t_ray *ray, int x)
 {
 	t_img	*tex;
 	double	wall_x;
-	int		params[3];
-	int		y;
+	int		p[3];
 
-	params[0] = x;
+	p[0] = x;
 	tex = select_texture(game, ray);
 	if (ray->side == 0)
 		wall_x = game->player_y + ray->perp_wall_dist * ray->ray_dir_y;
@@ -83,17 +84,13 @@ void	draw_wall_slice(t_game *game, t_ray *ray, int x)
 	wall_x -= floor(wall_x);
 	if (tex && tex->width > 0 && tex->height > 0)
 	{
-		params[1] = (int)(wall_x * (double)tex->width);
+		p[1] = (int)(wall_x * (double)tex->width);
 		if (ray->side == 0 && ray->ray_dir_x < 0)
-			params[1] = tex->width - params[1] - 1;
+			p[1] = tex->width - p[1] - 1;
 		if (ray->side == 1 && ray->ray_dir_y > 0)
-			params[1] = tex->width - params[1] - 1;
-		put_wall_pixel(game, tex, ray, params);
-		return ;
+			p[1] = tex->width - p[1] - 1;
+		draw_column(game, ray, tex, p);
 	}
-	y = ray->draw_start - 1;
-	while (++y <= ray->draw_end)
-		my_mlx_pixel_put(&game->frame, x, y, (int)ray->color);
 }
 
 void	render(t_game *game)
@@ -101,7 +98,6 @@ void	render(t_game *game)
 	int		x;
 	t_ray	ray;
 
-	draw_background(game);
 	x = 0;
 	while (x < RESX)
 	{
