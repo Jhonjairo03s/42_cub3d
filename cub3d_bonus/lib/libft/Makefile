@@ -3,28 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
+#    By: ppaula-s <ppaula-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr        #
+#    Created: 2025/04/09 06:39:24 by ppaula-s          #+#    #+#              #
+#    Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-all:
-	@make -C cub3d
+NAME = libft.a
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I.
 
-bonus:
-	@make -C cub3d_bonus
+SRCS = ft_strlen.c \
+       ft_strcmp.c \
+       ft_strjoin.c \
+       ft_strncmp.c \
+       ft_memset.c \
+       ft_itoa.c \
+       ft_strlcpy.c
+
+OBJS = $(SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@make -C cub3d clean
-	@make -C cub3d_bonus clean
+	rm -f $(OBJS)
 
-fclean:
-	@make -C cub3d fclean
-	@make -C cub3d_bonus fclean
+fclean: clean
+	rm -f $(NAME)
 
-re:
-	@make -C cub3d re
+re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

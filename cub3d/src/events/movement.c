@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 00:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,6 @@ void	rotate_player(t_game *game, double rot_speed)
 		- game->plane_y * sin(rot_speed);
 	game->plane_y = old_plane_x * sin(rot_speed)
 		+ game->plane_y * cos(rot_speed);
-}
-
-int	mouse_cb(int x, int y, t_game *game)
-{
-	double	mouse_delta;
-
-	(void)y;
-	if (game->prev_mouse_x == -1)
-		game->prev_mouse_x = x;
-	mouse_delta = x - game->prev_mouse_x;
-	if (mouse_delta != 0)
-	{
-		rotate_player(game, mouse_delta * 0.002);
-		game->prev_mouse_x = x;
-	}
-	return (0);
 }
 
 static void	move_player(t_game *game, double move_x, double move_y)
@@ -95,4 +79,12 @@ void	update_player(t_game *game, double delta_time)
 		rotate_player(game, -rot_speed);
 	if (game->keys.right)
 		rotate_player(game, rot_speed);
+}
+
+int	mouse_cb(int x, int y, t_game *game)
+{
+	(void)x;
+	(void)y;
+	(void)game;
+	return (0);
 }

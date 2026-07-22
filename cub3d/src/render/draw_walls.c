@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,86 +123,24 @@ void	draw_background(t_game *game)
 
 void	draw_fps(t_game *game)
 {
-	char	*fps_str;
-	char	*tmp;
-	int		fps;
-
-	if (!game || !game->show_fps || !game->win_ptr)
-		return ;
-	if (game->time_data.delta_time > 0)
-		fps = (int)(1.0 / game->time_data.delta_time);
-	else
-		fps = 0;
-	tmp = ft_itoa(fps);
-	if (tmp)
-	{
-		fps_str = ft_strjoin("FPS: ", tmp);
-		free(tmp);
-		if (fps_str)
-		{
-			mlx_string_put(game->mlx_ptr, game->win_ptr, 10, 20,
-				0x00FFFFFF, fps_str);
-			free(fps_str);
-		}
-	}
-}
-
-static void	draw_sprite_stripe(t_game *game, t_sprite_draw *draw, int stripe)
-{
-	int	y;
-
-	y = draw->draw_start_y;
-	while (y < draw->draw_end_y)
-	{
-		my_mlx_pixel_put(&game->frame, stripe, y, 0x00FF0000);
-		y++;
-	}
-}
-
-static void	calculate_sprite_bounds(t_sprite_draw *draw)
-{
-	draw->draw_start_y = -draw->sprite_height / 2 + RESY / 2;
-	if (draw->draw_start_y < 0)
-		draw->draw_start_y = 0;
-	draw->draw_end_y = draw->sprite_height / 2 + RESY / 2;
-	if (draw->draw_end_y >= RESY)
-		draw->draw_end_y = RESY - 1;
-	draw->draw_start_x = -draw->sprite_width / 2 + draw->sprite_screen_x;
-	if (draw->draw_start_x < 0)
-		draw->draw_start_x = 0;
-	draw->draw_end_x = draw->sprite_width / 2 + draw->sprite_screen_x;
-	if (draw->draw_end_x >= RESX)
-		draw->draw_end_x = RESX - 1;
+	(void)game;
 }
 
 void	render_enemy(t_game *game)
 {
-	t_sprite_draw	draw;
-	double			sprite_x;
-	double			sprite_y;
-	int				stripe;
+	(void)game;
+}
 
-	sprite_x = game->enemy.x - game->player_x;
-	sprite_y = game->enemy.y - game->player_y;
-	draw.inv_det = 1.0 / (game->plane_x * game->dir_y
-			- game->dir_x * game->plane_y);
-	draw.transform_x = draw.inv_det * (game->dir_y * sprite_x
-			- game->dir_x * sprite_y);
-	draw.transform_y = draw.inv_det * (-game->plane_y * sprite_x
-			+ game->plane_x * sprite_y);
-	draw.sprite_screen_x = (int)((RESX / 2)
-			* (1 + draw.transform_x / draw.transform_y));
-	draw.sprite_height = abs((int)(RESY / draw.transform_y));
-	draw.sprite_width = abs((int)(RESY / draw.transform_y));
-	calculate_sprite_bounds(&draw);
-	stripe = draw.draw_start_x;
-	while (stripe < draw.draw_end_x)
-	{
-		if (draw.transform_y > 0 && game->z_buffer
-			&& draw.transform_y < game->z_buffer[stripe])
-			draw_sprite_stripe(game, &draw, stripe);
-		stripe++;
-	}
+void	update_enemy(t_game *game, long long elapsed)
+{
+	(void)game;
+	(void)elapsed;
+}
+
+char	*framecalc(t_game *game)
+{
+	(void)game;
+	return ("0");
 }
 
 void	render(t_game *game)
@@ -222,5 +160,4 @@ void	render(t_game *game)
 		draw_wall_slice(game, &ray, x);
 		x++;
 	}
-	render_enemy(game);
 }
