@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:51:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 17:55:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	game_loop(t_game *game)
 
 static void	start_game(t_game *game)
 {
+	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
+	mlx_mouse_move(game->mlx_ptr, game->win_ptr, RESX / 2, RESY / 2);
 	mlx_hook(game->win_ptr, 2, (1L << 0),
 		(int (*)())(void *)key_press_hook, game);
 	mlx_hook(game->win_ptr, 3, (1L << 1),
