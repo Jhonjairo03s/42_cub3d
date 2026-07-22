@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 18:10:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	calculate_wall_dist(t_ray *ray)
 		ray->perp_wall_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
 		ray->perp_wall_dist = (ray->side_dist_y - ray->delta_dist_y);
-	if (ray->perp_wall_dist <= 0)
-		ray->perp_wall_dist = 0.0001;
+	if (ray->perp_wall_dist < 0.05)
+		ray->perp_wall_dist = 0.05;
 	ray->line_height = (int)(RESY / ray->perp_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + RESY / 2;
 	if (ray->draw_start < 0)

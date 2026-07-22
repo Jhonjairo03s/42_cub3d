@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 18:08:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/22 18:10:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 		return ;
 	if (!img || !img->addr)
 		return ;
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	dst = img->addr + (y * img->line_len + (x * 4));
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
@@ -38,7 +38,7 @@ static unsigned int	get_tex_pixel(t_img *tex, int x, int y)
 		y = 0;
 	if (y >= tex->height)
 		y = tex->height - 1;
-	src = tex->addr + (y * tex->line_len + x * (tex->bpp / 8));
+	src = tex->addr + (y * tex->line_len + (x * 4));
 	return (*(unsigned int *)src);
 }
 
