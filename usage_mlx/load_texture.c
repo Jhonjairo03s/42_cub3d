@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:27:14 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/14 19:10:43 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:04:40 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ mlx_texture_t	*load_texture_agnostic(char *path)
 	else
 		tex = extract_xpm_to_tex(path);
 	if (tex == NULL)
-	{
-		err_msg("Texture", ERROR_TEXTURE, -1);
 		return (NULL);
-	}
 	return (tex);
 }

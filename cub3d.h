@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/21 19:58:11 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/23 19:43:48 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define ERROR_EXTENSION "It must end in .cub\n"
 # define ERROR_FD_OPEN "opening the file\n"
 # define ERROR_FD_DIR_OPEN "It's a directory, not a map\n"
+# define ERROR_IDENTIFIERS "The map does not include the 6 identifiers\n"
 # define ERROR_TEXTURE "loading texture\n"
 # define ERROR_RGB "RGB extraction\n"
 # define ERROR_RANGE_RGB "Out of RGB range [0-255]\n"
@@ -162,6 +163,7 @@ int		ft_strcmp(const char *str1, const char *str2);
 int		ft_strncmp(const char *str1, const char *str2, size_t nbr);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *s, int c, size_t len);
+char	*ft_strrchr(const char *str, int c);
 // ----------------------------------------------------------------------------
 
 /*

@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/14 18:40:03 by jhvalenc         ###   ########.fr        #
+#    Updated: 2026/07/23 11:15:54 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS_LIBFT = libft/ft_strlen.c \
 	     libft/ft_strjoin.c \
 	     libft/ft_strncmp.c \
 	     libft/ft_memset.c \
+	     libft/ft_strrchr.c \
 	     debug/debug_print_parse.c
 
 OBJS_MAIN = $(SRCS_MAIN:.c=.o)

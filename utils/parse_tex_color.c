@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 01:26:13 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/21 18:59:16 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:04:44 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	parse_texture(char **cursor, mlx_texture_t **tex)
 	*cursor = master_cursor(path_start);
 	*tex = load_texture_agnostic(path_start);
 	if (*tex == NULL)
-		return (-1);
+		return (err_msg("Texture", ERROR_TEXTURE, -1));
 	return (0);
 }
 
