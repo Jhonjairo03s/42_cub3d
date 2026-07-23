@@ -6,11 +6,12 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:33:34 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/20 18:38:06 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:57:01 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include <stdio.h>
 
 int	parser_map_width(char *scout)
 {
@@ -87,9 +88,13 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	int		map_width;
 	int		map_height;
 
-	while (*map_start_cursor == '\n')
+	while (*map_start_cursor == '\n' || *map_start_cursor == ' '
+		|| *map_start_cursor == '\t')
 		map_start_cursor++;
 	scout = map_start_cursor;
+	printf("-> %c\n", *scout);
+	if (*scout != '1')
+		return (err_msg("Character", ERROR_INIT_MAP, -1), NULL);
 	map_width = parser_map_width(scout);
 	if (map_width == -1)
 		return (NULL);
