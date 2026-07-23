@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:04:48 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:13:57 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ char	*parse_path(t_game *game, char *map)
 	cursor_tex = map;
 	cursor_color = map;
 	elements_found = 0;
-	if (validate_identifiers_textures(cursor_tex) == -1 ||
-		validate_identifiers_colors(cursor_color) == -1)
+	if (validate_identifiers_textures(cursor_tex) == -1
+		|| validate_identifiers_colors(cursor_color) == -1)
 		return (NULL);
 	while (*cursor != '\0' && elements_found < 6)
 	{

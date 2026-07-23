@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 01:26:13 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:04:44 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:14:26 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ int	parse_color(char **cursor, t_u32 *color)
 			(*cursor)++;
 		index++;
 	}
-	*color = (rgb[0] << 24) | (rgb[1] << 16) | ( rgb[2] << 8) | 255;
+	*color = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 255;
 	return (0);
 }
