@@ -1,15 +1,18 @@
-NO ./textures/path_to_the_north_texture/north.pngj
-EA ./textures/path_to_the_east_texture/east.png
+NO ./textures/path_to_the_north_texture/north.png
 SO ./textures/path_to_the_south_texture/south.png
 WE ./textures/path_to_the_west_texture/west.png
 
-F 220,100,0
-C 255,30,0
+gdfbd
 
-	1111111111111111111111111
-	1000000000110000000000001
-	1011000001110000000000001
-	1001000000000000000000001
+EA ./textures/path_to_the_east_texture/east.png
+
+F 220,100,0
+C 225,30,0
+
+        1111111111111111111111111
+        1000000000110000000000001
+        1011000001110000000000001
+        1001000000000000000000001
 111111111011000001110000000000001
 100000000011000001110111111111111
 11110111111111011100000010001

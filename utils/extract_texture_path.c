@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:13:57 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:45:42 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ static int	check_parse(t_game *game, char **cursor, int *elements_found)
 	else if (ft_strncmp(*cursor, "C ", 2) == 0 && parse_color(cursor,
 			&game->ceil_color) == 0)
 		return ((*elements_found)++, 0);
-	else if (**cursor == '\n')
+	else if (**cursor == '\n' || **cursor == ' ' || **cursor == '\t')
 		return ((*cursor)++, 0);
 	else
-		return (-1);
+		return (err_msg("Metadata", ERROR_METADATA, -1));
 }
 
 char	*parse_path(t_game *game, char *map)

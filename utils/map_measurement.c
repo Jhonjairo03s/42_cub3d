@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 11:33:34 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:57:01 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:00:27 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	process_height_char(char c, int *map_height, int *map_ended,
 	else
 	{
 		if ((c == '1' || c == '0' || c == 'N' || c == 'W' || c == 'S'
-				|| c == 'N') && *map_ended == 1)
+				|| c == 'E') && *map_ended == 1)
 			return (err_msg("height", ERROR_INCOMPLETE_MAP, -1));
 		(*line_len)++;
 	}
@@ -88,12 +88,11 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	int		map_width;
 	int		map_height;
 
-	while (*map_start_cursor == '\n' || *map_start_cursor == ' '
-		|| *map_start_cursor == '\t')
+	while (*map_start_cursor == '\n')
 		map_start_cursor++;
 	scout = map_start_cursor;
 	printf("-> %c\n", *scout);
-	if (*scout != '1')
+	if (*scout != '1' && *scout != ' ')
 		return (err_msg("Character", ERROR_INIT_MAP, -1), NULL);
 	map_width = parser_map_width(scout);
 	if (map_width == -1)

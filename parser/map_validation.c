@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 14:00:01 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:01:55 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/27 17:59:36 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*scanning_and_extraction(t_game *game, const char *arg)
 	if (game->raw_data == NULL)
 	{
 		write(STDERR_FILENO, "Error\n", 6);
-		write(STDERR_FILENO, err_msg, ft_strlen(err_msg));	
+		write(STDERR_FILENO, err_msg, ft_strlen(err_msg));
 		return (NULL);
 	}
 	parser_tex_color = parse_path(game, game->raw_data);
@@ -43,5 +43,47 @@ int	topology_and_map_memory(t_game *game, char *parser_tex_color)
 	player = init_player(game);
 	if (player != 0)
 		return (-1);
+	return (0);
+}
+
+static int	is_open_space(t_game *game, int x, int y)
+{
+	int	idx;
+
+	if (x == 0 || x == game->map_width - 1 || y == 0
+		|| y == game->map_height - 1)
+		return (1);
+	idx = y * game->map_width + x;
+	if (game->map[idx - 1] == ' ' || game->map[idx + 1] == ' '
+		|| game->map[idx - game->map_width] == ' '
+		|| game->map[idx + game->map_width] == ' ')
+		return (1);
+	return (0);
+}
+
+int	check_global_closure(t_game *game)
+{
+	int		x;
+	int		y;
+	int		idx;
+	t_u8	c;
+
+	y = 0;
+	while (y < game->map_height)
+	{
+		x = 0;
+		while (x < game->map_width)
+		{
+			idx = y * game->map_width + x;
+			c = game->map[idx];
+			if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			{
+				if (is_open_space(game, x, y) == 1)
+					return (err_msg("Map limit", ERROR_LIMIT_FF, -1));
+			}
+			x++;
+		}
+		y++;
+	}
 	return (0);
 }

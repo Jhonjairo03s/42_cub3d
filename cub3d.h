@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/23 19:43:48 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:45:15 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdint.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -33,11 +34,13 @@
 # define ERROR_EXTENSION "It must end in .cub\n"
 # define ERROR_FD_OPEN "opening the file\n"
 # define ERROR_FD_DIR_OPEN "It's a directory, not a map\n"
+# define ERROR_METADATA "Invalid character in the textures/colors section\n"
 # define ERROR_IDENTIFIERS "The map does not include the 6 identifiers\n"
 # define ERROR_TEXTURE "loading texture\n"
 # define ERROR_RGB "RGB extraction\n"
 # define ERROR_RANGE_RGB "Out of RGB range [0-255]\n"
 # define ERROR_COMMAS "Without commas, in the color extraction\n"
+# define ERROR_INIT_MAP "Beginning of the map contains an invalid character\n"
 // # define ERROR_PARSER_MAP "loading file\n"
 # define ERROR_NOT_PLAYER "Player not found\n"
 # define ERROR_MULTI_PLAYER "Multiple players\n"
@@ -117,6 +120,7 @@ typedef struct s_point
 char	*scanning_and_extraction(t_game *game, const char *arg);
 int		topology_and_map_memory(t_game *game, char *parser_tex_color);
 int		program_validation(int ac, const char *arg);
+int		check_global_closure(t_game *game);
 // ----------------------------------------------------------------------------
 
 /*

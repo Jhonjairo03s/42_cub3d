@@ -1,0 +1,23 @@
+   WE                            ./textures/path_to_the_west_texture/west.png
+NO      ./textures/path_to_the_north_texture/north.png
+
+
+
+SO ./textures/path_to_the_south_texture/south.png
+
+F      17,    38,     64
+
+    EA ./textures/path_to_the_east_texture/east.png
+
+
+
+
+
+C 218, 234, 235
+
+1111111111111111111111111
+10S0110000100000000000001
+1000110000000000111111001
+1000110000000000110001001
+1000000000100000000001001
+1111111111111111111111111
