@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_mlx.c                                         :+:      :+:    :+:   */
+/*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 15:42:00 by jhvalenc         ###   ########.fr       */
+/*   Created: 2026/05/28 21:55:10 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/20 18:09:32 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	init_graphics(t_game *game)
+void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(RESX, RESY, "cub3D", true);
-	if (!game->mlx)
-		return (err_msg("MLX init", "MLX42 init failed\n", -1));
-	game->canvas = mlx_new_image(game->mlx, RESX, RESY);
-	if (!game->canvas)
-		return (err_msg("Canvas", "canvas creation failed\n", -1));
-	if (mlx_image_to_window(game->mlx, game->canvas, 0, 0) == -1)
-		return (err_msg("Window", "display image failed\n", -1));
-	return (0);
+	game->mlx = NULL;
+	game->tex_n = NULL;
+	game->tex_s = NULL;
+	game->tex_e = NULL;
+	game->tex_w = NULL;
+	game->map = NULL;
+	game->raw_data = NULL;
+	game->player_x = 0.0;
+	game->player_y = 0.0;
+	game->dir_x = 0.0;
+	game->dir_y = 0.0;
+	game->plane_x = 0.0;
+	game->plane_y = 0.0;
+	game->floor_color = 0;
+	game->ceil_color = 0;
+	game->map_width = 0;
+	game->map_height = 0;
 }

@@ -6,56 +6,32 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:25:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
-int	key_press_hook(int keycode, t_game *game)
+void	handle_keys(t_game *game)
 {
-	if (keycode == 65307)
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 	{
-		clean_exit(game);
-		exit(0);
+		mlx_close_window(game->mlx);
+		return ;
 	}
-	if (keycode == 119 || keycode == 87)
-		game->keys.w = 1;
-	if (keycode == 97 || keycode == 65)
-		game->keys.a = 1;
-	if (keycode == 115 || keycode == 83)
-		game->keys.s = 1;
-	if (keycode == 100 || keycode == 68)
-		game->keys.d = 1;
-	if (keycode == 65361)
-		game->keys.left = 1;
-	if (keycode == 65363)
-		game->keys.right = 1;
-	if (keycode == 65472)
-		game->show_fps = !game->show_fps;
-	return (0);
+	game->keys.w = mlx_is_key_down(game->mlx, MLX_KEY_W);
+	game->keys.s = mlx_is_key_down(game->mlx, MLX_KEY_S);
+	game->keys.a = mlx_is_key_down(game->mlx, MLX_KEY_A);
+	game->keys.d = mlx_is_key_down(game->mlx, MLX_KEY_D);
+	game->keys.left = mlx_is_key_down(game->mlx, MLX_KEY_LEFT);
+	game->keys.right = mlx_is_key_down(game->mlx, MLX_KEY_RIGHT);
 }
 
-int	key_release_hook(int keycode, t_game *game)
+void	close_callback(void *param)
 {
-	if (keycode == 119 || keycode == 87)
-		game->keys.w = 0;
-	if (keycode == 97 || keycode == 65)
-		game->keys.a = 0;
-	if (keycode == 115 || keycode == 83)
-		game->keys.s = 0;
-	if (keycode == 100 || keycode == 68)
-		game->keys.d = 0;
-	if (keycode == 65361)
-		game->keys.left = 0;
-	if (keycode == 65363)
-		game->keys.right = 0;
-	return (0);
-}
+	t_game	*game;
 
-int	close_hook(t_game *game)
-{
+	game = (t_game *)param;
 	clean_exit(game);
 	exit(0);
-	return (0);
 }

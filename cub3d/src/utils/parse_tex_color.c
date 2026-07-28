@@ -1,44 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_colors.c                                     :+:      :+:    :+:   */
+/*   parse_tex_color.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 01:26:13 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/24 00:14:26 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
-int	ft_atoi_rgb(char **str)
+char	*master_cursor(char *cursor)
 {
-	int	result;
-	int	digits;
-
-	result = 0;
-	digits = 0;
-	while (**str == ' ')
-		(*str)++;
-	if (**str == '-' || **str == '+')
-		return (-1);
-	while (**str >= '0' && **str <= '9')
+	while (*cursor != '\0' && *cursor != '\n')
+		cursor++;
+	if (*cursor == '\n')
 	{
-		result = (result * 10) + (**str - '0');
-		(*str)++;
-		digits++;
+		*cursor = '\0';
+		return (cursor + 1);
 	}
-	if (digits == 0)
-		return (-1);
-	while (**str == ' ')
-		(*str)++;
-	if (**str != ',' && **str != '\n' && **str != '\0')
-		return (-1);
-	return (result);
+	return (cursor);
 }
 
-int	parse_texture(t_game *game, char **cursor, t_img **tex)
+/*
+int	parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img)
 {
 	char	*path_start;
 
@@ -47,7 +34,23 @@ int	parse_texture(t_game *game, char **cursor, t_img **tex)
 		(*cursor)++;
 	path_start = *cursor;
 	*cursor = master_cursor(path_start);
-	*tex = load_texture(game->mlx_ptr, path_start);
+	*tex = load_texture(game, path_start, img);
+	if (*tex == NULL)
+		return (err_msg("Texture", ERROR_TEXTURE, -1));
+	return (0);
+}
+*/
+
+int	parse_texture(char **cursor, mlx_texture_t **tex)
+{
+	char	*path_start;
+
+	*cursor = *cursor + 3;
+	while (**cursor == ' ')
+		(*cursor)++;
+	path_start = *cursor;
+	*cursor = master_cursor(path_start);
+	*tex = load_texture_agnostic(path_start);
 	if (*tex == NULL)
 		return (err_msg("Texture", ERROR_TEXTURE, -1));
 	return (0);
@@ -85,6 +88,6 @@ int	parse_color(char **cursor, t_u32 *color)
 			(*cursor)++;
 		index++;
 	}
-	*color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	*color = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 255;
 	return (0);
 }

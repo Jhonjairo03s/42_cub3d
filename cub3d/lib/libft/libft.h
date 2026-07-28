@@ -6,7 +6,7 @@
 /*   By: ppaula-s <ppaula-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 06:39:24 by ppaula-s          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:35:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *s, int c, size_t len);
 char	*ft_itoa(int n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_strrchr(const char *str, int c);
 
 #endif

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map_size.c                                   :+:      :+:    :+:   */
+/*   map_measurement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/20 14:00:01 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 16:55:00 by ppaula-s         ###   ########.fr       */
+/*   Created: 2026/06/11 11:33:34 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/27 18:00:27 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
 int	parser_map_width(char *scout)
 {
@@ -90,6 +90,8 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	while (*map_start_cursor == '\n')
 		map_start_cursor++;
 	scout = map_start_cursor;
+	if (*scout != '1' && *scout != ' ' && *scout != '\t')
+		return (err_msg("Character", ERROR_INIT_MAP, -1), NULL);
 	map_width = parser_map_width(scout);
 	if (map_width == -1)
 		return (NULL);
@@ -98,7 +100,7 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	if (map_height == -1)
 		return (NULL);
 	game->map_height = map_height;
-	game->map = (uint8_t *)malloc(sizeof(uint8_t) * map_width * map_height);
+	game->map = (t_u8 *)malloc(sizeof(t_u8) * map_width * map_height);
 	if (game->map == NULL)
 		return (NULL);
 	ft_memset(game->map, ' ', map_width * map_height);

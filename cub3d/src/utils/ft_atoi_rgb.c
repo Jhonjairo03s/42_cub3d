@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_mlx.c                                         :+:      :+:    :+:   */
+/*   ft_atoi_rgb.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 15:42:00 by jhvalenc         ###   ########.fr       */
+/*   Created: 2026/06/02 11:01:32 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/06/03 11:10:48 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	init_graphics(t_game *game)
+int	ft_atoi_rgb(char **str)
 {
-	game->mlx = mlx_init(RESX, RESY, "cub3D", true);
-	if (!game->mlx)
-		return (err_msg("MLX init", "MLX42 init failed\n", -1));
-	game->canvas = mlx_new_image(game->mlx, RESX, RESY);
-	if (!game->canvas)
-		return (err_msg("Canvas", "canvas creation failed\n", -1));
-	if (mlx_image_to_window(game->mlx, game->canvas, 0, 0) == -1)
-		return (err_msg("Window", "display image failed\n", -1));
-	return (0);
+	int	result;
+	int	digits;
+
+	result = 0;
+	digits = 0;
+	while (**str == ' ')
+		(*str)++;
+	if (**str == '-' || **str == '+')
+		return (-1);
+	while (**str >= '0' && **str <= '9')
+	{
+		result = (result * 10) + (**str - '0');
+		(*str)++;
+		digits++;
+	}
+	if (digits == 0)
+		return (-1);
+	while (**str == ' ')
+		(*str)++;
+	if (**str != ',' && **str != '\n' && **str != '\0')
+		return (-1);
+	return (result);
 }

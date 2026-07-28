@@ -6,7 +6,7 @@
 #    By: ppaula-s <ppaula-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/09 06:39:24 by ppaula-s          #+#    #+#              #
-#    Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr        #
+#    Updated: 2026/07/28 15:35:00 by ppaula-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS = ft_strlen.c \
        ft_strncmp.c \
        ft_memset.c \
        ft_itoa.c \
-       ft_strlcpy.c
+       ft_strlcpy.c \
+       ft_strrchr.c
 
 OBJS = $(SRCS:.c=.o)
 

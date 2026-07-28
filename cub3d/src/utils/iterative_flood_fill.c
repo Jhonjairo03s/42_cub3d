@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*   iterative_flood_fill.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/18 11:58:40 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 17:07:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/24 13:24:54 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
-static t_u8	*ft_memcpy_u8(t_u8 *s1, t_u8 *s2, int len)
+static t_u8	*ft_memcpy(t_u8 *s1, t_u8 *s2, int len)
 {
 	t_u8	*start_s1;
 	int		index;
@@ -89,10 +89,10 @@ int	iteractive_flood_fill(t_game *game)
 	int		ret;
 
 	map_clone = malloc(sizeof(t_u8) * (game->map_width * game->map_height));
-	stack = malloc(sizeof(t_point) * (game->map_width * game->map_height));
+	stack = malloc(sizeof(t_point) * (game->map_width * game->map_height * 8));
 	if (stack == NULL || map_clone == NULL)
 		return (free_and_return(map_clone, stack, -1));
-	ft_memcpy_u8(map_clone, game->map, game->map_width * game->map_height);
+	ft_memcpy(map_clone, game->map, game->map_width * game->map_height);
 	ret = run_flood_fill(game, map_clone, stack);
 	return (free_and_return(map_clone, stack, ret));
 }

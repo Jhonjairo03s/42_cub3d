@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 23:27:35 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 15:45:00 by ppaula-s         ###   ########.fr       */
+/*   Created: 2026/07/23 11:10:56 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/28 15:35:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "libft.h"
 
-int	err_msg(const char *msg, char *str, int code)
+char	*ft_strrchr(const char *str, int c)
 {
-	write(STDERR_FILENO, "Error\n", 6);
-	if (msg != NULL)
+	char	*last;
+
+	last = NULL;
+	while (*str != '\0')
 	{
-		write(STDERR_FILENO, msg, ft_strlen(msg));
-		write(STDERR_FILENO, ": ", 2);
+		if (*str == (char)c)
+			last = (char *)str;
+		str++;
 	}
-	if (str != NULL)
-		write(STDERR_FILENO, str, ft_strlen(str));
-	return (code);
+	if ((char)c == '\0')
+		return ((char *)str);
+	return (last);
 }

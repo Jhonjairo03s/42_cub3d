@@ -6,19 +6,11 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 00:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 16:40:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/28 16:28:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
-
-int64_t	get_time_in_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((int64_t)tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
+#include "cub3d.h"
 
 void	rotate_player(t_game *game, double rot_speed)
 {
@@ -65,26 +57,22 @@ void	update_player(t_game *game, double delta_time)
 	double	move_speed;
 	double	rot_speed;
 
-	move_speed = 3.0 * delta_time;
-	rot_speed = 2.0 * delta_time;
+	move_speed = MOVE_SPEED * delta_time;
+	rot_speed = ROT_SPEED * delta_time;
 	if (game->keys.w)
-		move_player(game, game->dir_x * move_speed, game->dir_y * move_speed);
+		move_player(game, game->dir_x * move_speed,
+			game->dir_y * move_speed);
 	if (game->keys.s)
-		move_player(game, -game->dir_x * move_speed, -game->dir_y * move_speed);
+		move_player(game, -game->dir_x * move_speed,
+			-game->dir_y * move_speed);
 	if (game->keys.a)
-		move_player(game, game->dir_y * move_speed, -game->dir_x * move_speed);
+		move_player(game, game->dir_y * move_speed,
+			-game->dir_x * move_speed);
 	if (game->keys.d)
-		move_player(game, -game->dir_y * move_speed, game->dir_x * move_speed);
+		move_player(game, -game->dir_y * move_speed,
+			game->dir_x * move_speed);
 	if (game->keys.left)
 		rotate_player(game, -rot_speed);
 	if (game->keys.right)
 		rotate_player(game, rot_speed);
-}
-
-int	mouse_cb(int x, int y, t_game *game)
-{
-	(void)x;
-	(void)y;
-	(void)game;
-	return (0);
 }
