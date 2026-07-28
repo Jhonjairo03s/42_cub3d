@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_bonus.c                                      :+:      :+:    :+:   */
+/*   player_vectors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/18 20:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 17:34:00 by jhvalenc         ###   ########.fr       */
+/*   Created: 2026/06/16 16:14:47 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/28 16:37:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	handle_mouse(t_game *game)
+void	player_vectors(t_game *game)
 {
-	t_i32	curr_x;
-	t_i32	curr_y;
-	t_i32	delta_x;
+	int	index;
+	int	total_size;
 
-	if (!game || !game->mlx || !game->mouse_enabled)
-		return ;
-	mlx_get_mouse_pos(game->mlx, &curr_x, &curr_y);
-	if (game->prev_mouse_x == -1)
+	index = 0;
+	total_size = game->map_width * game->map_height;
+	while (index < total_size)
 	{
-		game->prev_mouse_x = curr_x;
-		return ;
+		if (game->map[index] == 'N')
+			init_vector_n(game);
+		if (game->map[index] == 'S')
+			init_vector_s(game);
+		if (game->map[index] == 'E')
+			init_vector_e(game);
+		if (game->map[index] == 'W')
+			init_vector_w(game);
+		index++;
 	}
-	delta_x = curr_x - game->prev_mouse_x;
-	game->prev_mouse_x = curr_x;
-	if (delta_x != 0)
-		rotate_player(game, delta_x * MOUSE_SENSITIVITY);
+	game->map[index] = '0';
 }

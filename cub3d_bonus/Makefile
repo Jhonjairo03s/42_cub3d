@@ -5,78 +5,77 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/22 18:14:00 by ppaula-s         ###   ########.fr        #
+#    Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#              #
+#    Updated: 2026/07/28 17:27:00 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D_bonus
+NAME        = cub3D_bonus
+CC          = cc
+CFLAGS      = -Wall -Werror -Wextra -Iinc -Ilib/MLX42/include/MLX42 -Ilib/libft
 
-MLX_DIR = lib/mlx
-LIBFT_DIR = lib/libft
+LIBFT_DIR   = lib/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-MLX_LIB = $(MLX_DIR)/libmlx_Linux.a
-LIBFT_LIB = $(LIBFT_DIR)/libft.a
+MLX_DIR     = lib/MLX42
+MLX_BUILD   = $(MLX_DIR)/build
+MLX42       = $(MLX_BUILD)/libmlx42.a
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -Wno-cast-function-type -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
-MLX_FLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -lXext -lX11 -lm -lz
+SRCS        = src/main.c \
+              src/init/init_mlx.c \
+              src/parse/map_validation.c \
+              src/parse/program_validation.c \
+              src/raycast/raycast_calc.c \
+              src/raycast/dda.c \
+              src/render/draw_walls.c \
+              src/render/textures.c \
+              src/render/minimap_bonus.c \
+              src/render/fps_bonus.c \
+              src/events/key_hooks.c \
+              src/events/movement.c \
+              src/events/mouse_bonus.c \
+              src/utils/dump_and_fill.c \
+              src/utils/errors.c \
+              src/utils/extract_texture_path.c \
+              src/utils/ft_atoi_rgb.c \
+              src/utils/init_game.c \
+              src/utils/init_player.c \
+              src/utils/init_vectors.c \
+              src/utils/iterative_flood_fill.c \
+              src/utils/load_texture.c \
+              src/utils/map_measurement.c \
+              src/utils/map_of_the_char.c \
+              src/utils/parse_tex_color.c \
+              src/utils/player_vectors.c
 
-RM = rm -rf
+OBJS_DIR    = obj
+OBJS        = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
-SRCS = src/main.c \
-       src/init/init_game.c \
-       src/init/init_player.c \
-       src/init/init_mlx.c \
-       src/parse/parse_file.c \
-       src/parse/parse_map.c \
-       src/parse/parse_map_size.c \
-       src/parse/parse_colors.c \
-       src/parse/validate_walls.c \
-       src/parse/flood_fill.c \
-       src/raycast/raycast_calc.c \
-       src/raycast/dda.c \
-       src/render/draw_walls.c \
-       src/render/textures.c \
-       src/render/render_sprite_bonus.c \
-       src/render/minimap_bonus.c \
-       src/render/fps_bonus.c \
-       src/events/key_hooks.c \
-       src/events/doors_bonus.c \
-       src/events/mouse_bonus.c \
-       src/events/movement.c \
-       src/utils/clean_exit.c \
-       src/utils/error_msg.c
+all: $(LIBFT) $(MLX42) $(NAME)
 
-OBJS_DIR = obj
-OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
-
-all: $(NAME)
-
-bonus: all
-
-$(LIBFT_LIB):
+$(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-$(MLX_LIB):
-	@make -C $(MLX_DIR)
+$(MLX42):
+	@cmake -B $(MLX_BUILD) -S $(MLX_DIR) > /dev/null 2>&1
+	@make -C $(MLX_BUILD) -j4 > /dev/null 2>&1
 
-$(OBJS_DIR)/%.o: src/%.c inc/cub3d.h inc/structs.h
+$(NAME): $(OBJS) $(LIBFT) $(MLX42)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX42) $(MLX_BUILD)/_deps/glfw-build/src/libglfw3.a -L$(LIBFT_DIR) -lft -ldl -pthread -lm -lX11 -o $(NAME)
+
+$(OBJS_DIR)/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT_LIB) $(MLX_LIB) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $@
-
 clean:
-	@make -C $(LIBFT_DIR) clean
-	@make -C $(MLX_DIR) clean
-	$(RM) $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR)
+	@make -C $(LIBFT_DIR) clean > /dev/null 2>&1
 
 fclean: clean
-	@make -C $(LIBFT_DIR) fclean
-	$(RM) $(NAME) cub3D
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean > /dev/null 2>&1
+	@rm -rf $(MLX_BUILD) > /dev/null 2>&1
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

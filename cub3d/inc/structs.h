@@ -50,7 +50,6 @@ typedef struct s_ray
 	t_i32	line_height;
 	t_i32	draw_start;
 	t_i32	draw_end;
-	t_u32	color;
 }	t_ray;
 
 typedef struct s_game

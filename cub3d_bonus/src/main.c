@@ -6,60 +6,44 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/22 18:08:00 by ppaula-s         ###   ########.fr       */
+/*   Updated: 2026/07/28 16:33:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "cub3d.h"
 
-static int	game_loop(t_game *game)
+void	game_loop(void *param)
 {
-	int64_t	current_time;
-	int64_t	elapsed;
+	t_game	*game;
 
-	current_time = get_time_in_ms();
-	if (game->time_data.last_time == 0)
-		game->time_data.last_time = current_time;
-	elapsed = current_time - game->time_data.last_time;
-	game->time_data.last_time = current_time;
-	game->time_data.delta_time = elapsed / 1000.0;
-	update_player(game, game->time_data.delta_time);
+	game = (t_game *)param;
+	if (!game || !game->mlx)
+		return ;
+	handle_keys(game);
+	handle_mouse(game);
+	update_player(game, game->mlx->delta_time);
 	render(game);
-	if (game->frame.img_ptr && game->win_ptr && game->mlx_ptr)
-	{
-		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
-			game->frame.img_ptr, 0, 0);
-		if (game->show_fps)
-			draw_fps_bonus(game);
-	}
-	return (0);
+	draw_minimap(game);
+	draw_fps(game);
 }
 
 static void	start_game(t_game *game)
 {
-	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
-	mlx_mouse_move(game->mlx_ptr, game->win_ptr, RESX / 2, RESY / 2);
-	mlx_hook(game->win_ptr, 2, (1L << 0),
-		(int (*)())(void *)key_press_hook, game);
-	mlx_hook(game->win_ptr, 3, (1L << 1),
-		(int (*)())(void *)key_release_hook, game);
-	mlx_hook(game->win_ptr, 6, (1L << 6),
-		(int (*)())(void *)mouse_cb, game);
-	mlx_hook(game->win_ptr, 17, 0,
-		(int (*)())(void *)close_hook, game);
-	mlx_loop_hook(game->mlx_ptr, (int (*)())(void *)game_loop, game);
-	mlx_loop(game->mlx_ptr);
+	mlx_close_hook(game->mlx, close_callback, game);
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_loop(game->mlx);
 }
 
-static int	setup_map(t_game *game, char *arg)
+static t_i32	setup_map(t_game *game, char *arg)
 {
 	char	*parser_tex_and_color;
 
-	init_game(game);
 	parser_tex_and_color = scanning_and_extraction(game, arg);
 	if (parser_tex_and_color == NULL)
 		return (-1);
 	if (topology_and_map_memory(game, parser_tex_and_color) == -1)
+		return (-1);
+	if (check_global_closure(game) == -1)
 		return (-1);
 	if (iteractive_flood_fill(game) == -1)
 		return (-1);
@@ -75,6 +59,7 @@ int	main(int argc, char **argv)
 	game = (t_game *)malloc(sizeof(t_game));
 	if (game == NULL)
 		return (1);
+	init_game(game);
 	if (setup_map(game, argv[1]) == -1 || init_graphics(game) != 0)
 	{
 		clean_exit(game);

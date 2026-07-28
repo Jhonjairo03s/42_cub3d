@@ -5,120 +5,99 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/22 16:40:00 by ppaula-s          #+#    #+#             */
-/*   Updated: 2026/07/22 17:45:00 by ppaula-s         ###   ########.fr       */
+/*   Created: 2026/06/18 20:00:00 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/28 17:27:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
-#define RADAR_R 55
-#define RADAR_CX 70
-#define RADAR_CY 70
-
-static int	get_radar_color(t_game *game, double wx, double wy)
+static t_u32	get_radar_color(t_game *game, t_i32 map_x, t_i32 map_y)
 {
-	int		mx;
-	int		my;
-	char	tile;
+	t_u8	tile;
 
-	mx = (int)wx;
-	my = (int)wy;
-	if (mx < 0 || mx >= game->map_width || my < 0 || my >= game->map_height)
-		return (0x111122);
-	tile = game->map[my * game->map_width + mx];
+	if (map_x < 0 || map_x >= game->map_width
+		|| map_y < 0 || map_y >= game->map_height)
+		return (0x1A202CEE);
+	tile = game->map[map_y * game->map_width + map_x];
 	if (tile == '1')
-		return (0x445577);
-	if (tile == '0')
-		return (0x222233);
-	if (tile == 'D')
-		return (0xAA6622);
-	if (tile == 'O')
-		return (0x22AA66);
-	return (0x111122);
+		return (0x4A5568FF);
+	if (tile != ' ')
+		return (0x2D3748DD);
+	return (0x1A202CEE);
 }
 
-static void	draw_radar_border(t_game *game)
+static void	draw_radar_pixel(t_game *game, t_i32 x, t_i32 y, t_i32 dist_sq)
 {
-	int		d[2];
-	int		dist_sq;
-	double	nx;
-	double	ny;
+	t_i32	map_x;
+	t_i32	map_y;
+	t_u32	color;
 
-	d[1] = -RADAR_R - 2;
-	while (++d[1] <= RADAR_R + 2)
+	if (dist_sq >= 76 * 76 && dist_sq <= 80 * 80)
+		my_mlx_pixel_put(game->canvas, x, y, 0xCBD5E0FF);
+	else if (dist_sq < 76 * 76)
 	{
-		d[0] = -RADAR_R - 2;
-		while (++d[0] <= RADAR_R + 2)
-		{
-			dist_sq = d[0] * d[0] + d[1] * d[1];
-			if (dist_sq >= RADAR_R * RADAR_R
-				&& dist_sq <= (RADAR_R + 3) * (RADAR_R + 3))
-				my_mlx_pixel_put(&game->frame, RADAR_CX + d[0],
-					RADAR_CY + d[1], 0x00FFCC);
-		}
-	}
-	nx = -game->dir_y;
-	ny = -game->dir_x;
-	my_mlx_pixel_put(&game->frame, RADAR_CX + (int)(nx * RADAR_R),
-		RADAR_CY + (int)(ny * RADAR_R), 0xFF0000);
-}
-
-static void	draw_radar_pixels(t_game *game)
-{
-	int		d[2];
-	double	world[2];
-	double	scale;
-
-	scale = 0.12;
-	d[1] = -RADAR_R;
-	while (d[1] <= RADAR_R)
-	{
-		d[0] = -RADAR_R;
-		while (d[0] <= RADAR_R)
-		{
-			if (d[0] * d[0] + d[1] * d[1] < RADAR_R * RADAR_R)
-			{
-				world[0] = game->player_x + (d[0] * game->plane_x
-						+ d[1] * game->dir_x) * scale;
-				world[1] = game->player_y + (d[0] * game->plane_y
-						+ d[1] * game->dir_y) * scale;
-				my_mlx_pixel_put(&game->frame, RADAR_CX + d[0],
-					RADAR_CY + d[1], get_radar_color(game,
-						world[0], world[1]));
-			}
-			d[0]++;
-		}
-		d[1]++;
+		map_x = (t_i32)(game->player_x + (x - MINIMAP_POS_X) / 10.0);
+		map_y = (t_i32)(game->player_y + (y - MINIMAP_POS_Y) / 10.0);
+		color = get_radar_color(game, map_x, map_y);
+		my_mlx_pixel_put(game->canvas, x, y, color);
 	}
 }
 
-static void	draw_center_player(t_game *game)
+static void	draw_radar_circle(t_game *game)
 {
-	int	x;
-	int	y;
+	t_i32	y;
+	t_i32	x;
+	t_i32	dist_sq;
 
-	y = -2;
-	while (y <= 2)
+	y = MINIMAP_POS_Y - MINIMAP_RADIUS;
+	while (y <= MINIMAP_POS_Y + MINIMAP_RADIUS)
 	{
-		x = -2;
-		while (x <= 2)
+		x = MINIMAP_POS_X - MINIMAP_RADIUS;
+		while (x <= MINIMAP_POS_X + MINIMAP_RADIUS)
 		{
-			if (x * x + y * y <= 4)
-				my_mlx_pixel_put(&game->frame, RADAR_CX + x,
-					RADAR_CY + y, 0xFF0055);
+			dist_sq = (x - MINIMAP_POS_X) * (x - MINIMAP_POS_X)
+				+ (y - MINIMAP_POS_Y) * (y - MINIMAP_POS_Y);
+			draw_radar_pixel(game, x, y, dist_sq);
 			x++;
 		}
 		y++;
 	}
-	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 3, 0xFFFF00);
-	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 4, 0xFFFF00);
-	my_mlx_pixel_put(&game->frame, RADAR_CX, RADAR_CY - 5, 0xFFFF00);
 }
 
-void	render_minimap(t_game *game)
+static void	draw_player_icon(t_game *game)
 {
-	draw_radar_pixels(game);
-	draw_radar_border(game);
-	draw_center_player(game);
+	t_i32	i;
+	t_i32	j;
+	t_i32	dx;
+	t_i32	dy;
+
+	i = -3;
+	while (i <= 3)
+	{
+		j = -3;
+		while (j <= 3)
+		{
+			if (i * i + j * j <= 9)
+				my_mlx_pixel_put(game->canvas, MINIMAP_POS_X + i,
+					MINIMAP_POS_Y + j, 0xE53E3EFF);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (++i <= 14)
+	{
+		dx = MINIMAP_POS_X + (t_i32)(game->dir_x * i);
+		dy = MINIMAP_POS_Y + (t_i32)(game->dir_y * i);
+		my_mlx_pixel_put(game->canvas, dx, dy, 0xFFFFFFFF);
+	}
+}
+
+void	draw_minimap(t_game *game)
+{
+	if (!game || !game->canvas || !game->map)
+		return ;
+	draw_radar_circle(game);
+	draw_player_icon(game);
 }

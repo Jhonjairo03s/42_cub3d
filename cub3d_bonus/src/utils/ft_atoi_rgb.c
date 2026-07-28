@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_bonus.c                                      :+:      :+:    :+:   */
+/*   ft_atoi_rgb.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/18 20:00:00 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 17:34:00 by jhvalenc         ###   ########.fr       */
+/*   Created: 2026/06/02 11:01:32 by jhvalenc          #+#    #+#             */
+/*   Updated: 2026/07/28 16:37:00 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	handle_mouse(t_game *game)
+int	ft_atoi_rgb(char **str)
 {
-	t_i32	curr_x;
-	t_i32	curr_y;
-	t_i32	delta_x;
+	int	result;
+	int	digits;
 
-	if (!game || !game->mlx || !game->mouse_enabled)
-		return ;
-	mlx_get_mouse_pos(game->mlx, &curr_x, &curr_y);
-	if (game->prev_mouse_x == -1)
+	result = 0;
+	digits = 0;
+	while (**str == ' ')
+		(*str)++;
+	if (**str == '-' || **str == '+')
+		return (-1);
+	while (**str >= '0' && **str <= '9')
 	{
-		game->prev_mouse_x = curr_x;
-		return ;
+		result = (result * 10) + (**str - '0');
+		(*str)++;
+		digits++;
 	}
-	delta_x = curr_x - game->prev_mouse_x;
-	game->prev_mouse_x = curr_x;
-	if (delta_x != 0)
-		rotate_player(game, delta_x * MOUSE_SENSITIVITY);
+	if (digits == 0)
+		return (-1);
+	while (**str == ' ')
+		(*str)++;
+	if (**str != ',' && **str != '\n' && **str != '\0')
+		return (-1);
+	return (result);
 }
