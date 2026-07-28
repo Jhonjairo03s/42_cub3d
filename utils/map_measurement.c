@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include <stdio.h>
 
 int	parser_map_width(char *scout)
 {
@@ -91,7 +90,6 @@ t_u8	*map_measurement(char *map_start_cursor, t_game *game)
 	while (*map_start_cursor == '\n')
 		map_start_cursor++;
 	scout = map_start_cursor;
-	printf("-> %c\n", *scout);
 	if (*scout != '1' && *scout != ' ')
 		return (err_msg("Character", ERROR_INIT_MAP, -1), NULL);
 	map_width = parser_map_width(scout);
