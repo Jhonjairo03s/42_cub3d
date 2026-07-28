@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 14:00:01 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/27 17:59:36 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 13:49:56 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ int	topology_and_map_memory(t_game *game, char *parser_tex_color)
 
 static int	is_open_space(t_game *game, int x, int y)
 {
-	int	idx;
+	int	index;
 
 	if (x == 0 || x == game->map_width - 1 || y == 0
 		|| y == game->map_height - 1)
 		return (1);
-	idx = y * game->map_width + x;
-	if (game->map[idx - 1] == ' ' || game->map[idx + 1] == ' '
-		|| game->map[idx - game->map_width] == ' '
-		|| game->map[idx + game->map_width] == ' ')
+	index = y * game->map_width + x;
+	if (game->map[index - 1] == ' ' || game->map[index + 1] == ' '
+		|| game->map[index - game->map_width] == ' '
+		|| game->map[index + game->map_width] == ' ')
 		return (1);
 	return (0);
 }
@@ -65,7 +65,7 @@ int	check_global_closure(t_game *game)
 {
 	int		x;
 	int		y;
-	int		idx;
+	int		index;
 	t_u8	c;
 
 	y = 0;
@@ -74,8 +74,8 @@ int	check_global_closure(t_game *game)
 		x = 0;
 		while (x < game->map_width)
 		{
-			idx = y * game->map_width + x;
-			c = game->map[idx];
+			index = y * game->map_width + x;
+			c = game->map[index];
 			if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
 				if (is_open_space(game, x, y) == 1)
