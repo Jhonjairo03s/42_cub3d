@@ -1,0 +1,6 @@
+[submodule "cub3d/lib/MLX42"]
+	path = cub3d/lib/MLX42
+	url = https://github.com/codam-coding-college/MLX42.git
+[submodule "cub3d_bonus/lib/MLX42"]
+	path = cub3d_bonus/lib/MLX42
+	url = https://github.com/codam-coding-college/MLX42.git
