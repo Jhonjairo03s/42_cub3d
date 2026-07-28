@@ -6,7 +6,7 @@
 #    By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/28 22:42:26 by jhvalenc          #+#    #+#              #
-#    Updated: 2026/07/23 11:15:54 by jhvalenc         ###   ########.fr        #
+#    Updated: 2026/07/28 17:24:52 by jhvalenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRCS_UTILS = utils/init_game.c \
 	     utils/dump_and_fill.c \
 	     utils/init_player.c \
 	     utils/init_vectors.c \
-	     utils/player_vectors.c \
 	     utils/iterative_flood_fill.c
 
 SRCS_USAGE_MLX = usage_mlx/load_texture.c
