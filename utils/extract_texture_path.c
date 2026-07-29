@@ -6,12 +6,20 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 11:44:26 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/27 18:45:42 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:44:13 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/**
+ * @brief Scans the raw file string to ensure all four directional texture
+ *        identifiers (NO, SO, WE, EA) are present exactly once.
+ *
+ * @param map The raw file content string.
+ * @return int 0 if all four identifiers are strictly unique, -1 if any is
+ *         missing or duplicated.
+ */
 static int	validate_identifiers_textures(char *map)
 {
 	int	no;
@@ -40,6 +48,14 @@ static int	validate_identifiers_textures(char *map)
 	return (0);
 }
 
+/**
+ * @brief Scans the raw file string to ensure the Floor (F) and Ceiling (C)
+ *        color identifiers are present exactly once.
+ *
+ * @param map The raw file content string.
+ * @return int 0 if both identifiers are strictly unique, -1 if missing or 
+ *	       duplicated.
+ */
 static int	validate_identifiers_colors(char *map)
 {
 	int	f;
@@ -60,6 +76,21 @@ static int	validate_identifiers_colors(char *map)
 	return (0);
 }
 
+/**
+ * @brief Identifies the current line's metadata type, triggers the corresponding
+ *        extraction function, or skips valid whitespaces.
+ *
+ * @param game Pointer to the main game structure.
+ * @param cursor Double pointer to the current reading position in the raw 
+ *	      string.
+ * @param elements_found Pointer to the counter of successfully extracted 
+ *	      metadata.
+ * @return int 0 on successful extraction or valid whitespace skip, -1 if
+ *         garbage/invalid characters are detected.
+ *
+ * @note This is the strict gatekeeper. If it finds anything other than the 6
+ *       valid identifiers or formatting spaces/newlines, it triggers an error.
+ */
 static int	check_parse(t_game *game, char **cursor, int *elements_found)
 {
 	if (ft_strncmp(*cursor, "NO ", 3) == 0 && parse_texture(cursor,
@@ -86,6 +117,19 @@ static int	check_parse(t_game *game, char **cursor, int *elements_found)
 		return (err_msg("Metadata", ERROR_METADATA, -1));
 }
 
+/**
+ * @brief Main extraction loop for all textures and colors. Validates the counts,
+ *        then processes the file string until all 6 configuration elements 
+ *        are found.
+ *
+ * @param game Pointer to the main game structure.
+ * @param map The raw file content string.
+ * @return char* A pointer to the exact location in the string where the
+ *         metadata ends and the map grid begins, or NULL on error.
+ *
+ * @note By returning the advanced cursor, we seamlessly hand off the string
+ *       to the map topology functions without needing to re-read the file.
+ */
 char	*parse_path(t_game *game, char *map)
 {
 	char	*cursor;

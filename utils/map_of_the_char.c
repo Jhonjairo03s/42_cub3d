@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 12:16:48 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/06/10 23:17:01 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:42:42 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@ char	*parser_map(const char *buf)
 	return (raw_data);
 }
 */
+
+/**
+ * @brief Reads data from a file descriptor in chunks and concatenates it
+ *        into a single dynamically allocated string.
+ *
+ * @param fd The open file descriptor to read from.
+ * @param raw_d The initial heap-allocated string (usually just "\0")
+ *	      to append to.
+ * @return char* A pointer to the newly allocated string containing all the
+ *         accumulated data, or NULL if reading or memory allocation fails.
+ *
+ * @note This function safely manages memory by freeing the old `raw_d` string
+ *       during each `ft_strjoin` cycle, preventing leaks while the string grows.
+ */
 char	*concatenate(int fd, char *raw_d)
 {
 	ssize_t	bytes_read;
@@ -75,6 +89,18 @@ char	*concatenate(int fd, char *raw_d)
 	return (raw_d);
 }
 
+/**
+ * @brief Opens the .cub file and extracts its entire content into a single
+ *        continuous string in memory.
+ *
+ * @param buf The file path string (e.g., argv[1]).
+ * @return char* A pointer to the full raw file content (heap-allocated string),
+ *         or NULL if file opening, reading, or memory allocation fails.
+ *
+ * @note It kickstarts the extraction by allocating a 1-byte empty string ("\0")
+ *       so ft_strjoin has a valid starting point. The caller (main structure)
+ *       is responsible for freeing this memory later (via clean_exit).
+ */
 char	*parser_map(const char *buf)
 {
 	int		fd;

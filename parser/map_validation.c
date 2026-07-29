@@ -6,12 +6,23 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 14:00:01 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 13:49:56 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:44:55 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/**
+ * @brief Orchestrates the initialization, file reading, and metadata extraction.
+ *
+ * @param game Pointer to the main game structure.
+ * @param arg  Path to the .cub file.
+ * @return char* Pointer to the exact position in the raw string where the
+ *         metadata ends and the map grid begins. Returns NULL on failure.
+ *
+ * @note This function loads the entire file into RAM (game->raw_data) and
+ *       delegates the extraction of textures and colors to parse_path().
+ */
 char	*scanning_and_extraction(t_game *game, const char *arg)
 {
 	char		*parser_tex_color;
@@ -32,6 +43,18 @@ char	*scanning_and_extraction(t_game *game, const char *arg)
 	return (parser_tex_color);
 }
 
+/**
+ * @brief Manages the memory allocation and population of the 1D map grid.
+ *
+ * @param game Pointer to the main game structure.
+ * @param parser_tex_color Pointer to the start of the map grid in the raw 
+ *	      string.
+ * @return int 0 on success, -1 if memory allocation, dimension measurement,
+ *         or player initialization fails.
+ *
+ * @note This function converts the irregular 2D map into a perfectly rectangular
+ *       1D array, extracting the player's position and orientation vectors.
+ */
 int	topology_and_map_memory(t_game *game, char *parser_tex_color)
 {
 	int		player;
@@ -46,6 +69,16 @@ int	topology_and_map_memory(t_game *game, char *parser_tex_color)
 	return (0);
 }
 
+/**
+ * @brief Collision detection sensor. Checks if a walkable tile is exposed 
+ *	      to the void.
+ * 
+ * @param game Pointer to the main game structure.
+ * @param x    The x coordinate of the tile to check.
+ * @param y    The y coordinate of the tile to check.
+ * @return int 1 if the tile touches the absolute edge of the map or an empty 
+ *         space (' '). Returns 0 if it is safely surrounded by walls or floors.
+ */
 static int	is_open_space(t_game *game, int x, int y)
 {
 	int	index;
@@ -61,6 +94,16 @@ static int	is_open_space(t_game *game, int x, int y)
 	return (0);
 }
 
+/**
+ * @brief Global scanner that ensures the map is strictly closed by walls.
+ * 
+ * @param game Pointer to the main game structure.
+ * @return int 0 if the map is completely sealed. Returns -1 if any walkable 
+ *         surface (floor or player position) is exposed to the void.
+ * 
+ * @note This acts as an absolute safeguard against structural leaks that might 
+ *       trick standard flood fill algorithms (e.g., hidden spaces inside walls).
+ */
 int	check_global_closure(t_game *game)
 {
 	int		x;

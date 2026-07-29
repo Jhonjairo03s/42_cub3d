@@ -6,12 +6,24 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 17:40:46 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/23 17:17:17 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:45:50 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/**
+ * @brief Tests file accessibility and ensures the path points to a regular file,
+ *        not a directory.
+ *
+ * @param arg The file path to test.
+ * @return int 0 if the file is valid and readable, 1 if it cannot be opened
+ *         (missing or bad permissions), and 2 if the path is a directory.
+ *
+ * @note Using O_DIRECTORY is a safe, low-level trick to check if a path
+ *       is a folder without needing to include <sys/stat.h>. FDs are always
+ *       safely closed before returning.
+ */
 static int	open_argv(const char *arg)
 {
 	int		fd;
@@ -31,6 +43,20 @@ static int	open_argv(const char *arg)
 	return (0);
 }
 
+/**
+ * @brief Validates the command-line arguments and the structural naming of the
+ *        provided map file.
+ *
+ * @param ac Argument count passed from main.
+ * @param arg The file path (argv[1]) provided by the user.
+ * @return int 0 if all validations pass, -1 if any check fails (printing the
+ *         corresponding error message to STDERR).
+ *
+ * @note This function acts as the perimeter fence. It strictly enforces 
+ *	     argc == 2, rejects files without the exact ".cub" extension, prevents 
+ *	     malicious hidden files (e.g., "/.cub" or ".cub"), and verifies 
+ *	     file integrity.
+ */
 int	program_validation(int ac, const char *arg)
 {
 	size_t	len;

@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:27:14 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:04:40 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:46:16 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ t_u32	*load_texture(t_game *game, char *path, void **save_img_ptr)
 }
 */
 
+/**
+ * @brief Simple string checker to verify if a file uses the .png extension.
+ *
+ * @param path The file path to check.
+ * @return int 1 if the file is a PNG, 0 otherwise.
+ */
 static int	is_png(const char *path)
 {
 	size_t	len;
@@ -37,6 +43,18 @@ static int	is_png(const char *path)
 	return (0);
 }
 
+/**
+ * @brief Loads an XPM42 file and extracts its underlying texture data into a
+ *        standalone texture structure.
+ *
+ * @param path The file path to the .xpm42 file.
+ * @return mlx_texture_t* A dynamically allocated texture structure containing
+ *         the image data, or NULL on failure.
+ *
+ * @note MLX42 handles XPMs wrapped in a specific `xpm_t` struct. This function
+ *       bypasses the wrapper by allocating a pure `mlx_texture_t`, copying the
+ *       internal pointers, and freeing the outer wrapper.
+ */
 static mlx_texture_t	*extract_xpm_to_tex(char *path)
 {
 	xpm_t			*xpm;
@@ -59,6 +77,18 @@ static mlx_texture_t	*extract_xpm_to_tex(char *path)
 	return (tex);
 }
 
+/**
+ * @brief Universal texture loader that abstracts the file format from the 
+ *		  engine.
+ *
+ * @param path The file path of the texture to load.
+ * @return mlx_texture_t* The standardized loaded texture, or NULL if it fails.
+ *
+ * @note This is a Factory pattern. It automatically routes the file to the
+ *       correct MLX42 parser (.png or .xpm42) and always returns a unified
+ *       `mlx_texture_t` format. The rendering engine will never need to know
+ *       which image format was originally provided in the .cub file.
+ */
 mlx_texture_t	*load_texture_agnostic(char *path)
 {
 	mlx_texture_t	*tex;

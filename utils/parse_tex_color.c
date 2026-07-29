@@ -6,12 +6,23 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 01:26:13 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/24 00:14:26 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:37:39 by jhvalenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/**
+ * @brief Advances the cursor to the end of the current line and isolates it.
+ *
+ * @param cursor Pointer to the string to be terminated.
+ * @return char* Pointer to the beginning of the next line.
+ *
+ * @note This uses a zero-allocation trick: it modifies the raw string in place
+ *       by replacing the newline character ('\n') with a null terminator ('\0').
+ *       This allows standard C functions to read the isolated line as a
+ *       standalone string without needing malloc/ft_substr.
+ */
 char	*master_cursor(char *cursor)
 {
 	while (*cursor != '\0' && *cursor != '\n')
@@ -41,6 +52,19 @@ int	parse_texture(t_game *game, char **cursor, t_u32 **tex, void **img)
 }
 */
 
+/**
+ * @brief Extracts the file path of a texture and loads it via MLX42.
+ *
+ * @param cursor Double pointer to the current reading position 
+ *        (at the identifier).
+ * @param tex Double pointer to the MLX texture struct where the image will be 
+ *        stored.
+ * @return int 0 if the texture is successfully loaded, -1 on failure.
+ *
+ * @note It skips the 3-character identifier (e.g., "NO ") and any trailing 
+ *       spaces, then uses master_cursor to isolate the path string before 
+ *       passing it to the agnostic texture loader.
+ */
 int	parse_texture(char **cursor, mlx_texture_t **tex)
 {
 	char	*path_start;
@@ -56,6 +80,12 @@ int	parse_texture(char **cursor, mlx_texture_t **tex)
 	return (0);
 }
 
+/**
+ * @brief Helper function to skip spaces and extract a single RGB integer.
+ *
+ * @param cursor Double pointer to the string containing the numbers.
+ * @return int The extracted integer, or -1 if the parsing fails.
+ */
 static int	get_color(char **cursor)
 {
 	int	rgb;
@@ -68,6 +98,20 @@ static int	get_color(char **cursor)
 	return (rgb);
 }
 
+/**
+ * @brief Parses an RGB string (e.g., "255, 0, 0"), validates it, and packs it
+ *        into a 32-bit unsigned integer (RGBA format for MLX42).
+ *
+ * @param cursor Double pointer to the string starting at the color identifier.
+ * @param color Pointer to the t_u32 variable where the packed color will be 
+ *	      stored.
+ * @return int 0 on success, -1 if format, range, or syntax is invalid.
+ *
+ * @note Uses bitwise left shifts (<<) to pack the Red, Green, and Blue channels
+ *       into their respective bytes. A hardcoded 255 (0xFF) is placed in the
+ *       lowest byte as the Alpha (opacity) channel, since Cub3D does not use 
+ *       transparency.
+ */
 int	parse_color(char **cursor, t_u32 *color)
 {
 	int	rgb[3];
