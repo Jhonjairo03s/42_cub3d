@@ -64,6 +64,7 @@
 void			init_game(t_game *game);
 t_i32			init_graphics(t_game *game);
 t_i32			init_player(t_game *game);
+void			set_player_direction(t_game *game, char dir);
 void			init_vector_n(t_game *game);
 void			init_vector_s(t_game *game);
 void			init_vector_e(t_game *game);

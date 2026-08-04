@@ -26,7 +26,8 @@ MLX_FLAGS = $(MLX_LIB) $(GLFW_LIB) -L$(LIBFT_DIR) -lft -ldl -pthread -lm -lX11
 RM = rm -rf
 
 SRCS = src/main.c \
-       src/init/init_mlx.c \
+       src/init/init_game.c \
+       src/init/init_player.c \
        src/parse/map_validation.c \
        src/parse/program_validation.c \
        src/raycast/raycast_calc.c \
@@ -39,15 +40,11 @@ SRCS = src/main.c \
        src/utils/errors.c \
        src/utils/extract_texture_path.c \
        src/utils/ft_atoi_rgb.c \
-       src/utils/init_game.c \
-       src/utils/init_player.c \
-       src/utils/init_vectors.c \
        src/utils/iterative_flood_fill.c \
        src/utils/load_texture.c \
        src/utils/map_measurement.c \
        src/utils/map_of_the_char.c \
-       src/utils/parse_tex_color.c \
-       src/utils/player_vectors.c
+       src/utils/parse_tex_color.c
 
 OBJS_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
