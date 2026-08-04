@@ -94,8 +94,6 @@ void	render(t_game *game)
 		ray_init(game, &ray, x);
 		perform_dda(game, &ray);
 		calculate_wall_dist(&ray);
-		if (game->z_buffer != NULL)
-			game->z_buffer[x] = ray.perp_wall_dist;
 		draw_wall_slice(game, &ray, x);
 		x++;
 	}

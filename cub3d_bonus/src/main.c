@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/28 22:11:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 16:33:00 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/08/04 16:04:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	game_loop(void *param)
 static void	start_game(t_game *game)
 {
 	mlx_close_hook(game->mlx, close_callback, game);
+	mlx_key_hook(game->mlx, key_callback, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

@@ -56,9 +56,6 @@ void	clean_exit(t_game *game)
 	if (game == NULL)
 		return ;
 	clean_textures(game);
-	if (game->z_buffer != NULL)
-		free(game->z_buffer);
-	game->z_buffer = NULL;
 	if (game->mlx != NULL)
 		mlx_terminate(game->mlx);
 	game->mlx = NULL;

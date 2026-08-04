@@ -20,7 +20,4 @@ void	init_game(t_game *game)
 	game->prev_mouse_x = -1;
 	game->mouse_enabled = true;
 	game->show_fps = true;
-	game->z_buffer = (double *)malloc(sizeof(double) * RESX);
-	if (game->z_buffer != NULL)
-		ft_memset(game->z_buffer, 0, sizeof(double) * RESX);
 }

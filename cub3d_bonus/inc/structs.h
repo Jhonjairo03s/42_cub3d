@@ -63,7 +63,6 @@ typedef struct s_game
 	mlx_texture_t	*tex_w;
 	t_u8			*map;
 	char			*raw_data;
-	double			*z_buffer;
 	double			player_x;
 	double			player_y;
 	double			dir_x;

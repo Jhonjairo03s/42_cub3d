@@ -6,7 +6,7 @@
 /*   By: jhvalenc <jhvalenc@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 23:59:32 by jhvalenc          #+#    #+#             */
-/*   Updated: 2026/07/28 17:27:00 by jhvalenc         ###   ########.fr       */
+/*   Updated: 2026/08/04 16:04:00 by ppaula-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@
 void			init_game(t_game *game);
 t_i32			init_graphics(t_game *game);
 t_i32			init_player(t_game *game);
+void			set_player_direction(t_game *game, char dir);
 void			init_vector_n(t_game *game);
 void			init_vector_s(t_game *game);
 void			init_vector_e(t_game *game);
@@ -115,7 +116,8 @@ void			ray_init_dist(t_game *game, t_ray *ray);
 void			perform_dda(t_game *game, t_ray *ray);
 void			calculate_wall_dist(t_ray *ray);
 
-void			my_mlx_pixel_put(mlx_image_t *img, t_i32 x, t_i32 y, t_u32 color);
+void			my_mlx_pixel_put(mlx_image_t *img,
+					t_i32 x, t_i32 y, t_u32 color);
 void			draw_wall_slice(t_game *game, t_ray *ray, t_i32 x);
 void			render(t_game *game);
 mlx_texture_t	*select_texture(t_game *game, t_ray *ray);
@@ -133,6 +135,7 @@ void			draw_fps(t_game *game);
 */
 void			game_loop(void *param);
 void			handle_keys(t_game *game);
+void			key_callback(mlx_key_data_t keydata, void *param);
 void			close_callback(void *param);
 void			update_player(t_game *game, double delta_time);
 void			rotate_player(t_game *game, double rot_speed);
